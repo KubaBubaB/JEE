@@ -4,6 +4,7 @@ import ekstra.jest.JEE.businessClasses.pieceOfClothing.PieceOfClothing;
 import lombok.*;
 
 import java.util.List;
+import java.util.UUID;
 
 @Setter
 @Getter

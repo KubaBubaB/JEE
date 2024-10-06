@@ -1,6 +1,6 @@
 # Get all characters.
 
-GET http://localhost:9080/JEE-App/api/characters
+GET http://localhost:9080/JEE-App/api/persons
 
 ###
 

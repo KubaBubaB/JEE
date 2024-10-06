@@ -6,15 +6,15 @@
          metadata-complete="false">
 
     <listener>
-        <listener-class>ekstra.jest.JEE.configuration.listener.CreateDataSource</listener-class>
+        <listener-class>ekstra.jest.JEE.config.listeners.CreatePseudoDatabase</listener-class>
     </listener>
 
     <listener>
-        <listener-class>ekstra.jest.JEE.configuration.listener.CreateServices</listener-class>
+        <listener-class>ekstra.jest.JEE.config.listeners.CreateServices</listener-class>
     </listener>
 
     <listener>
-        <listener-class>ekstra.jest.JEE.configuration.listener.CreateControllers</listener-class>
+        <listener-class>ekstra.jest.JEE.config.listeners.CreateControllers</listener-class>
     </listener>
 
 </web-app>

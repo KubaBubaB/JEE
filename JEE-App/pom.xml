@@ -75,25 +75,6 @@
         </profile>
     </profiles>
 
-    <developers>
-        <developer>
-            <id>psysiu</id>
-            <name>Michał Wójcik</name>
-            <email>michal.wojcik@eti.pg.edu.pl</email>
-            <roles>
-                <role>architect</role>
-                <role>developer</role>
-            </roles>
-            <properties>
-                <gravatar>https://s.gravatar.com/avatar/b61b36a5b97ca33e9d11d122c143b9f0</gravatar>
-            </properties>
-        </developer>
-    </developers>
-
-    <organization>
-        <name>Gdańsk University of Technology</name>
-    </organization>
-
     <licenses>
         <license>
             <name>MIT License</name>

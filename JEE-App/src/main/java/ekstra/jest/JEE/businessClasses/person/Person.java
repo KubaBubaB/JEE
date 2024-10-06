@@ -8,9 +8,9 @@ import java.util.List;
 
 @Setter
 @Getter
+@Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@ToString
 @EqualsAndHashCode
 public class Person {
     private String firstName;
@@ -19,4 +19,7 @@ public class Person {
     private Date dateOfBirth;
     @EqualsAndHashCode.Exclude
     private List<PieceOfClothing> ownedClothing;
+    @ToString.Exclude
+    @EqualsAndHashCode.Exclude
+    private byte[] photo;
 }
