@@ -37,7 +37,7 @@ public class ApiServlet extends HttpServlet {
         private static final Pattern UUID = Pattern.compile("[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}");
         public static final Pattern PERSONS = Pattern.compile("/persons/?");
         public static final Pattern PERSON = Pattern.compile("/persons/(%s)".formatted(UUID.pattern()));
-        public static final Pattern PERSON_PHOTO = Pattern.compile("/persons/%s/photo".formatted(UUID.pattern()));
+        public static final Pattern PERSON_PHOTO = Pattern.compile("/persons/(%s)/photo".formatted(UUID.pattern()));
     }
 
     private final Jsonb jsonb = JsonbBuilder.create();

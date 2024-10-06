@@ -1,130 +1,63 @@
-# Get all characters.
+# Get all persons.
 
 GET http://localhost:9080/JEE-App/api/persons
 
 ###
 
-# Get single character.
+# Get single person.
 
-GET http://localhost:9080/JEE-App/api/characters/525d3e7b-bb1f-4c13-bf17-926d1a12e4c0
-
-###
-
-# Get single character. Not existing, created later.
-
-GET http://localhost:9080/JEE-App/api/characters/3c6f1eb1-8069-44ab-988f-d7fed2b65d87
+GET http://localhost:9080/JEE-App/api/persons/9e0f75ec-479e-40f8-b6db-d5a25fcdaa0e
 
 ###
 
 # Get single character portrait.
 
-GET http://localhost:9080/JEE-App/api/characters/525d3e7b-bb1f-4c13-bf17-926d1a12e4c0/portrait
-
-###
-
-# Get single character portrait. Not existing, created later.
-
-GET http://localhost:9080/JEE-App/api/characters/3c6f1eb1-8069-44ab-988f-d7fed2b65d87/portrait
+GET http://localhost:9080/JEE-App/api/persons/9e0f75ec-479e-40f8-b6db-d5a25fcdaa0e/photo
 
 ###
 
 # Create new character.
 
-PUT http://localhost:9080/JEE-App/api/characters/3c6f1eb1-8069-44ab-988f-d7fed2b65d87
+PUT http://localhost:9080/JEE-App/api/persons/3c6f1eb1-8069-44ab-988f-d7fed2b65d87
 Content-Type: application/json
 
 {
-  "name": "Sigrid",
-  "background": "No one special.",
-  "age": 18,
-  "strength": 12,
-  "constitution": 12,
-  "charisma": 12,
-  "health": 24,
-  "profession": "f5875513-bf7b-4ae1-b8a5-5b70a1b90e76"
+  "firstName": "Mark",
+  "moneyInBankAcc": 1000.24,
+  "lastName": "Jacobale",
+  "dateOfBirth": "812981280000"
 }
 
 ###
 
 # Create character portrait.
 
-PUT http://localhost:9080/JEE-App/api/characters/3c6f1eb1-8069-44ab-988f-d7fed2b65d87/portrait
+PUT http://localhost:9080/JEE-App/api/persons/9e0f75ec-479e-40f8-b6db-d5a25fcdaa0e/photo
 Content-Type: multipart/form-data; boundary=boundary
 
 --boundary
 Content-Disposition: form-data; name="portrait"; filename="sigrid.png'
 
-< JEE-App/src/main/resources/sigrid.png
+< JEE-App/src/main/resources/WW.png
 --boundary--
-
-###
-
-# Create new character. Not existing profession.
-
-PUT http://localhost:9080/JEE-App/api/characters/3c6f1eb1-8069-44ab-988f-d7fed2b65d87
-Content-Type: application/json
-
-{
-  "name": "Sigrid",
-  "background": "No one special.",
-  "age": 18,
-  "strength": 12,
-  "constitution": 12,
-  "charisma": 12,
-  "profession": "3bb5b0d5-7e22-466f-8c3f-be4baa3d3b8c"
-}
 
 ###
 
 # Update character.
 
-PATCH http://localhost:9080/JEE-App/api/characters/3c6f1eb1-8069-44ab-988f-d7fed2b65d87
+PATCH http://localhost:9080/JEE-App/api/persons/0804a232-6910-4c89-8561-864ea7f22a36
 Content-Type: application/json
 
 {
-  "name": "Sir Sigrid",
-  "background": "Someone well known.",
-  "age": 30
+  "moneyInBankAcc": 12.73,
+  "lastName": "Broke"
 }
 
 ###
 
 # Delete character.
 
-DELETE http://localhost:9080/JEE-App/api/characters/3c6f1eb1-8069-44ab-988f-d7fed2b65d87
+DELETE http://localhost:9080/JEE-App/api/persons/3c6f1eb1-8069-44ab-988f-d7fed2b65d87
 
 ###
 
-# Get all professions.
-
-GET http://localhost:9080/JEE-App/api/professions
-
-###
-
-# Get all profession characters.
-
-GET http://localhost:9080/JEE-App/api/professions/f5875513-bf7b-4ae1-b8a5-5b70a1b90e76/characters
-
-###
-
-# Get all profession characters. Not existing.
-
-GET http://localhost:9080/JEE-App/api/professions/d8b50a43-ed45-4441-9bcb-5db7782b47f6/characters
-
-###
-
-# Get all user characters.
-
-GET http://localhost:9080/JEE-App/api/users/81e1c2a9-7f57-439b-b53d-6db88b071e4e/characters
-
-###
-
-# Get all user characters. Empty.
-
-GET http://localhost:9080/JEE-App/api/users/c4804e0f-769e-4ab9-9ebe-0578fb4f00a6/characters
-
-###
-
-# Get all user characters. Not existing.
-
-GET http://localhost:9080/JEE-App/api/users/c07cab55-a56f-4d67-b351-175bb7a94b7a/characters

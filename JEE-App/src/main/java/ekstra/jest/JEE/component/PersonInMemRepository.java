@@ -4,13 +4,16 @@ import ekstra.jest.JEE.businessClasses.person.Person;
 import ekstra.jest.JEE.interfaces.PersonRepository;
 
 import java.util.HashMap;
-import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
 public class PersonInMemRepository implements PersonRepository {
 
-    private final PseudoDatabase pseudoDatabase = PseudoDatabase.getInstance();
+    private final PseudoDatabase pseudoDatabase;
+
+    public PersonInMemRepository(PseudoDatabase pseudoDatabase) {
+        this.pseudoDatabase = pseudoDatabase;
+    }
 
     @Override
     public Optional<Person> get(UUID key) {
@@ -34,11 +37,6 @@ public class PersonInMemRepository implements PersonRepository {
 
     @Override
     public void update(UUID key, Person value) {
-        if(pseudoDatabase.getPersonMap().containsKey(key)){
-            pseudoDatabase.getPersonMap().put(key, value);
-        }
-        else{
-            throw new IllegalArgumentException("Person with UUID: " + key + " does not exist in the \"database\"");
-        }
+        pseudoDatabase.getPersonMap().put(key, value);
     }
 }
