@@ -4,48 +4,62 @@ GET http://localhost:9080/JEE-App/api/persons
 
 ###
 
-# Get single person.
+# Create a new person
 
-GET http://localhost:9080/JEE-App/api/persons/9e0f75ec-479e-40f8-b6db-d5a25fcdaa0e
-
-###
-
-# Get single character portrait.
-
-GET http://localhost:9080/JEE-App/api/persons/9e0f75ec-479e-40f8-b6db-d5a25fcdaa0e/photo
-
-###
-
-# Create new character.
-
-PUT http://localhost:9080/JEE-App/api/persons/3c6f1eb1-8069-44ab-988f-d7fed2b65d87
+PUT http://localhost:9080/JEE-App/api/persons/a786fdf4-e0b6-4360-98cb-dab711d57951
 Content-Type: application/json
 
 {
-  "firstName": "Mark",
+  "firstName": "Jacob",
   "moneyInBankAcc": 1000.24,
-  "lastName": "Jacobale",
+  "lastName": "Markale",
   "dateOfBirth": "812981280000"
 }
 
 ###
 
-# Create character portrait.
+# Get a single person.
 
-PUT http://localhost:9080/JEE-App/api/persons/9e0f75ec-479e-40f8-b6db-d5a25fcdaa0e/photo
+GET http://localhost:9080/JEE-App/api/persons/a786fdf4-e0b6-4360-98cb-dab711d57951
+
+###
+
+# Get a person photo
+
+GET http://localhost:9080/JEE-App/api/persons/a786fdf4-e0b6-4360-98cb-dab711d57951/photo
+
+###
+
+
+# Create a person photo
+
+PUT http://localhost:9080/JEE-App/api/persons/a786fdf4-e0b6-4360-98cb-dab711d57951/photo
 Content-Type: multipart/form-data; boundary=boundary
 
 --boundary
-Content-Disposition: form-data; name="portrait"; filename="sigrid.png'
+Content-Disposition: form-data; name="photo"; filename="WW.png'
 
 < JEE-App/src/main/resources/WW.png
 --boundary--
 
 ###
 
-# Update character.
+# Update a person photo
 
-PATCH http://localhost:9080/JEE-App/api/persons/0804a232-6910-4c89-8561-864ea7f22a36
+PATCH http://localhost:9080/JEE-App/api/persons/a786fdf4-e0b6-4360-98cb-dab711d57951/photo
+Content-Type: multipart/form-data; boundary=boundary
+
+--boundary
+Content-Disposition: form-data; name="photo"; filename="JP.png'
+
+< JEE-App/src/main/resources/JP.png
+--boundary--
+
+###
+
+# Update a person
+
+PATCH http://localhost:9080/JEE-App/api/persons/a786fdf4-e0b6-4360-98cb-dab711d57951
 Content-Type: application/json
 
 {
@@ -55,9 +69,9 @@ Content-Type: application/json
 
 ###
 
-# Delete character.
+# Delete a person
 
-DELETE http://localhost:9080/JEE-App/api/persons/3c6f1eb1-8069-44ab-988f-d7fed2b65d87
+DELETE http://localhost:9080/JEE-App/api/persons/a786fdf4-e0b6-4360-98cb-dab711d57951
 
 ###
 

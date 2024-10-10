@@ -3,8 +3,10 @@ package ekstra.jest.JEE.businessClasses.person;
 import ekstra.jest.JEE.businessClasses.pieceOfClothing.PieceOfClothing;
 import lombok.*;
 
+import java.nio.file.Path;
 import java.util.Date;
 import java.util.List;
+import java.util.UUID;
 
 @Setter
 @Getter
@@ -13,6 +15,7 @@ import java.util.List;
 @AllArgsConstructor
 @EqualsAndHashCode
 public class Person {
+    private UUID id;
     private String firstName;
     private Double moneyInBankAcc;
     private String lastName;
@@ -21,5 +24,5 @@ public class Person {
     private List<PieceOfClothing> ownedClothing;
     @ToString.Exclude
     @EqualsAndHashCode.Exclude
-    private byte[] photo;
+    private Path photo;
 }

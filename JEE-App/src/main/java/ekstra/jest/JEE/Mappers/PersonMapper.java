@@ -10,12 +10,14 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 public class PersonMapper {
-    public static Person mapPutPersonRequestToPerson(PutPersonRequest putPersonRequest) {
+    public static Person mapPutPersonRequestToPerson(PutPersonRequest putPersonRequest, UUID id) {
         return Person.builder()
+                .id(id)
                 .firstName(putPersonRequest.getFirstName())
                 .lastName(putPersonRequest.getLastName())
                 .dateOfBirth(new Date(Long.parseLong(putPersonRequest.getDateOfBirth())))
                 .moneyInBankAcc(putPersonRequest.getMoneyInBankAcc())
+                .ownedClothing(new ArrayList<>())
                 .build();
     }
 
@@ -35,7 +37,7 @@ public class PersonMapper {
         for (Map.Entry<UUID, Person> entry : persons.entrySet()) {
             Person person = entry.getValue();
             GetPersonsResponse.PersonDTO personDTO = new GetPersonsResponse.PersonDTO();
-            personDTO.id = entry.getKey();
+            personDTO.id = person.getId();
             personDTO.firstName = person.getFirstName();
             personDTO.lastName = person.getLastName();
             personDTO.dateOfBirth = person.getDateOfBirth().toString();

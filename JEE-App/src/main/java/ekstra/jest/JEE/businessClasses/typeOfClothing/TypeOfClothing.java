@@ -13,6 +13,7 @@ import java.util.UUID;
 @ToString
 @EqualsAndHashCode
 public class TypeOfClothing {
+    private UUID id;
     private WhereWearClothing whereWearClothing;
     private String name;
     private Boolean isTrendy;

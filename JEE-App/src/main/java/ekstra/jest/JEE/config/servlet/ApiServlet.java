@@ -94,7 +94,7 @@ public class ApiServlet extends HttpServlet {
                 return;
             } else if (path.matches(Patterns.PERSON_PHOTO.pattern())) {
                 UUID uuid = extractUuid(Patterns.PERSON_PHOTO, path);
-                personController.addPersonPhoto(uuid, request.getPart("portrait").getInputStream());
+                personController.addPersonPhoto(uuid, request.getPart("photo").getInputStream());
                 return;
             }
         }
@@ -123,6 +123,11 @@ public class ApiServlet extends HttpServlet {
             if (path.matches(Patterns.PERSON.pattern())) {
                 UUID uuid = extractUuid(Patterns.PERSON, path);
                 personController.updatePerson(uuid, jsonb.fromJson(request.getReader(), UpdatePersonRequest.class));
+                return;
+            }
+            else if (path.matches(Patterns.PERSON_PHOTO.pattern())) {
+                UUID uuid = extractUuid(Patterns.PERSON_PHOTO, path);
+                personController.patchPersonPhoto(uuid, request.getPart("photo").getInputStream());
                 return;
             }
         }

@@ -13,6 +13,7 @@ import java.util.UUID;
 @ToString
 @EqualsAndHashCode
 public class PieceOfClothing {
+    private UUID id;
     @EqualsAndHashCode.Exclude
     @ToString.Exclude
     private Person owner;

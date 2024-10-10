@@ -20,7 +20,7 @@ public class PersonController {
     }
 
     public GetPersonResponse getPerson(UUID personId) {
-        if(personService.getPerson(personId).isEmpty()){
+        if (personService.getPerson(personId).isEmpty()) {
             throw new NotFoundException("No person with this id");
         }
         return PersonMapper.mapPersonToGetPersonResponse(personService.getPerson(personId).orElseThrow(NotFoundException::new));
@@ -31,20 +31,14 @@ public class PersonController {
     }
 
     public void addPerson(UUID id, PutPersonRequest putPersonRequest) {
-        try{
-            personService.savePerson(id, PersonMapper.mapPutPersonRequestToPerson(putPersonRequest));
-        } catch (IllegalArgumentException e){
+        personService.getPerson(id).ifPresentOrElse(person -> {
             throw new BadRequestException("Person with this id already exists");
-        }
+        }, () -> personService.savePerson(id, PersonMapper.mapPutPersonRequestToPerson(putPersonRequest, id)));
     }
 
     public void updatePerson(UUID id, UpdatePersonRequest updatePersonRequest) {
-        try{
-            personService.updatePerson(id, updatePersonRequest);
-        }
-        catch (NotFoundException e){
-            throw new NotFoundException("No person with this id");
-        }
+        var person = personService.getPerson(id).orElseThrow(() -> new NotFoundException("No person with this id"));
+        personService.updatePerson(person, updatePersonRequest);
     }
 
     public void removePerson(UUID id) {
@@ -52,20 +46,25 @@ public class PersonController {
     }
 
     public void addPersonPhoto(UUID id, InputStream photo) {
-        try{
-            personService.addPersonPhoto(id, photo);
-        }
-        catch (NotFoundException e){
-            throw new NotFoundException("No person with this id");
-        }
+        var person = personService.getPerson(id).orElseThrow(() -> new NotFoundException("No person with this id"));
+        personService.addPersonPhoto(person, photo);
     }
 
     public byte[] getPersonPhoto(UUID id) {
-        try{
-            return personService.getPersonPhoto(id);
+        var person = personService.getPerson(id).orElseThrow(() -> new NotFoundException("No person with this id"));
+        var photoPath = person.getPhoto();
+        if (photoPath == null) {
+            throw new NotFoundException("Person does not have a photo");
         }
-        catch (NotFoundException e){
-            throw new NotFoundException("No person with this id");
+        return personService.getPersonPhoto(photoPath);
+    }
+
+    public void patchPersonPhoto(UUID id, InputStream is) {
+        var person = personService.getPerson(id).orElseThrow(() -> new NotFoundException("No person with this id"));
+        if (person.getPhoto() == null) {
+            throw new BadRequestException("Person does not have a photo to update");
         }
+        personService.patchPersonPhoto(person, is);
+
     }
 }

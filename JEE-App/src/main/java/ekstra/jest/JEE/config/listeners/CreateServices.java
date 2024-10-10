@@ -8,6 +8,8 @@ import jakarta.servlet.ServletContextEvent;
 import jakarta.servlet.ServletContextListener;
 import jakarta.servlet.annotation.WebListener;
 
+import java.nio.file.Path;
+
 @WebListener
 public class CreateServices implements ServletContextListener {
 
@@ -16,8 +18,9 @@ public class CreateServices implements ServletContextListener {
         PseudoDatabase pseudoDatabase = (PseudoDatabase) event.getServletContext().getAttribute("pseudoDatabase");
 
         PersonRepository personRepository = new PersonInMemRepository(pseudoDatabase);
+        Path photoDirectory = Path.of("C:\\StudiaHere\\TEMP");
 
-        event.getServletContext().setAttribute("personService", new PersonService(personRepository));
+        event.getServletContext().setAttribute("personService", new PersonService(personRepository, photoDirectory));
 
     }
 }
