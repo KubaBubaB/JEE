@@ -1,7 +1,7 @@
 package ekstra.jest.JEE.businessClasses.pieceOfClothing;
 
 import ekstra.jest.JEE.businessClasses.person.Person;
-import ekstra.jest.JEE.businessClasses.typeOfClothing.TypeOfClothing;
+import ekstra.jest.JEE.businessClasses.categoryOfClothing.CategoryOfClothing;
 import lombok.*;
 
 import java.util.UUID;
@@ -22,7 +22,7 @@ public class PieceOfClothing {
     private String name;
     @EqualsAndHashCode.Exclude
     @ToString.Exclude
-    private TypeOfClothing typeOfClothing;
+    private CategoryOfClothing categoryOfClothing;
     public enum ClothingSize{
         XS,
         S,

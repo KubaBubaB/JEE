@@ -1,4 +1,4 @@
-package ekstra.jest.JEE.businessClasses.typeOfClothing;
+package ekstra.jest.JEE.businessClasses.categoryOfClothing;
 
 import ekstra.jest.JEE.businessClasses.pieceOfClothing.PieceOfClothing;
 import lombok.*;
@@ -12,7 +12,7 @@ import java.util.UUID;
 @AllArgsConstructor
 @ToString
 @EqualsAndHashCode
-public class TypeOfClothing {
+public class CategoryOfClothing {
     private UUID id;
     private WhereWearClothing whereWearClothing;
     private String name;

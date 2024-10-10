@@ -3,7 +3,7 @@ package ekstra.jest.JEE.component;
 
 import ekstra.jest.JEE.businessClasses.person.Person;
 import ekstra.jest.JEE.businessClasses.pieceOfClothing.PieceOfClothing;
-import ekstra.jest.JEE.businessClasses.typeOfClothing.TypeOfClothing;
+import ekstra.jest.JEE.businessClasses.categoryOfClothing.CategoryOfClothing;
 import lombok.Getter;
 
 import java.util.*;
@@ -19,27 +19,27 @@ public class PseudoDatabase {
         Person person3 = new Person(UUID.randomUUID(), "Anna", 5000.0, "Kowalska", new Date(915148800000L), new ArrayList<>(), null);
         Person person4 = new Person(UUID.randomUUID(), "Piotr", 2000.0, "Nowak", new Date(631152000000L), new ArrayList<>(), null);
 
-        TypeOfClothing typeOfClothing1 = new TypeOfClothing(UUID.randomUUID(), TypeOfClothing.WhereWearClothing.TORSO, "T-shirt", false, new ArrayList<>());
-        TypeOfClothing typeOfClothing2 = new TypeOfClothing(UUID.randomUUID(), TypeOfClothing.WhereWearClothing.LEGS, "Jeans", true, new ArrayList<>());
-        TypeOfClothing typeOfClothing3 = new TypeOfClothing(UUID.randomUUID(), TypeOfClothing.WhereWearClothing.FEET, "Sneakers", true, new ArrayList<>());
+        CategoryOfClothing categoryOfClothing1 = new CategoryOfClothing(UUID.randomUUID(), CategoryOfClothing.WhereWearClothing.TORSO, "T-shirt", false, new ArrayList<>());
+        CategoryOfClothing categoryOfClothing2 = new CategoryOfClothing(UUID.randomUUID(), CategoryOfClothing.WhereWearClothing.LEGS, "Jeans", true, new ArrayList<>());
+        CategoryOfClothing categoryOfClothing3 = new CategoryOfClothing(UUID.randomUUID(), CategoryOfClothing.WhereWearClothing.FEET, "Sneakers", true, new ArrayList<>());
 
-        PieceOfClothing pieceOfClothing1 = new PieceOfClothing(UUID.randomUUID(), person1, 100.0, PieceOfClothing.ClothingSize.M, "T-shirt Typu Fajny", typeOfClothing1);
-        PieceOfClothing pieceOfClothing2 = new PieceOfClothing(UUID.randomUUID(), person2, 1000.0, PieceOfClothing.ClothingSize.L, "Jeans Typu Fajny", typeOfClothing2);
-        PieceOfClothing pieceOfClothing3 = new PieceOfClothing(UUID.randomUUID(), person1, 50.0, PieceOfClothing.ClothingSize.M, "T-shirt Taki Sb", typeOfClothing1);
-        PieceOfClothing pieceOfClothing4 = new PieceOfClothing(UUID.randomUUID(), person3, 200.0, PieceOfClothing.ClothingSize.S, "Sneakers Typu Sport", typeOfClothing3);
-        PieceOfClothing pieceOfClothing5 = new PieceOfClothing(UUID.randomUUID(), person4, 150.0, PieceOfClothing.ClothingSize.XL, "Jeans Typu Casual", typeOfClothing2);
-        PieceOfClothing pieceOfClothing6 = new PieceOfClothing(UUID.randomUUID(), person3, 80.0, PieceOfClothing.ClothingSize.M, "T-shirt Typu Casual", typeOfClothing1);
-        PieceOfClothing pieceOfClothing7 = new PieceOfClothing(UUID.randomUUID(), person4, 120.0, PieceOfClothing.ClothingSize.L, "Sneakers Typu Casual", typeOfClothing3);
-        PieceOfClothing pieceOfClothing8 = new PieceOfClothing(UUID.randomUUID(), person1, 60.0, PieceOfClothing.ClothingSize.S, "T-shirt Typu Basic", typeOfClothing1);
+        PieceOfClothing pieceOfClothing1 = new PieceOfClothing(UUID.randomUUID(), person1, 100.0, PieceOfClothing.ClothingSize.M, "T-shirt Typu Fajny", categoryOfClothing1);
+        PieceOfClothing pieceOfClothing2 = new PieceOfClothing(UUID.randomUUID(), person2, 1000.0, PieceOfClothing.ClothingSize.L, "Jeans Typu Fajny", categoryOfClothing2);
+        PieceOfClothing pieceOfClothing3 = new PieceOfClothing(UUID.randomUUID(), person1, 50.0, PieceOfClothing.ClothingSize.M, "T-shirt Taki Sb", categoryOfClothing1);
+        PieceOfClothing pieceOfClothing4 = new PieceOfClothing(UUID.randomUUID(), person3, 200.0, PieceOfClothing.ClothingSize.S, "Sneakers Typu Sport", categoryOfClothing3);
+        PieceOfClothing pieceOfClothing5 = new PieceOfClothing(UUID.randomUUID(), person4, 150.0, PieceOfClothing.ClothingSize.XL, "Jeans Typu Casual", categoryOfClothing2);
+        PieceOfClothing pieceOfClothing6 = new PieceOfClothing(UUID.randomUUID(), person3, 80.0, PieceOfClothing.ClothingSize.M, "T-shirt Typu Casual", categoryOfClothing1);
+        PieceOfClothing pieceOfClothing7 = new PieceOfClothing(UUID.randomUUID(), person4, 120.0, PieceOfClothing.ClothingSize.L, "Sneakers Typu Casual", categoryOfClothing3);
+        PieceOfClothing pieceOfClothing8 = new PieceOfClothing(UUID.randomUUID(), person1, 60.0, PieceOfClothing.ClothingSize.S, "T-shirt Typu Basic", categoryOfClothing1);
 
-        typeOfClothing1.getClothingBelongingToType().add(pieceOfClothing1);
-        typeOfClothing2.getClothingBelongingToType().add(pieceOfClothing2);
-        typeOfClothing1.getClothingBelongingToType().add(pieceOfClothing3);
-        typeOfClothing3.getClothingBelongingToType().add(pieceOfClothing4);
-        typeOfClothing2.getClothingBelongingToType().add(pieceOfClothing5);
-        typeOfClothing1.getClothingBelongingToType().add(pieceOfClothing6);
-        typeOfClothing3.getClothingBelongingToType().add(pieceOfClothing7);
-        typeOfClothing1.getClothingBelongingToType().add(pieceOfClothing8);
+        categoryOfClothing1.getClothingBelongingToType().add(pieceOfClothing1);
+        categoryOfClothing2.getClothingBelongingToType().add(pieceOfClothing2);
+        categoryOfClothing1.getClothingBelongingToType().add(pieceOfClothing3);
+        categoryOfClothing3.getClothingBelongingToType().add(pieceOfClothing4);
+        categoryOfClothing2.getClothingBelongingToType().add(pieceOfClothing5);
+        categoryOfClothing1.getClothingBelongingToType().add(pieceOfClothing6);
+        categoryOfClothing3.getClothingBelongingToType().add(pieceOfClothing7);
+        categoryOfClothing1.getClothingBelongingToType().add(pieceOfClothing8);
 
         person1.getOwnedClothing().add(pieceOfClothing1);
         person1.getOwnedClothing().add(pieceOfClothing3);
