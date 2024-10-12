@@ -4,12 +4,14 @@ import ekstra.jest.JEE.Requests.PutPieceOfClothingRequest;
 import ekstra.jest.JEE.Responses.GetPieceOfClothingResponse;
 import ekstra.jest.JEE.Responses.GetPiecesOfClothingResponse;
 import ekstra.jest.JEE.businessClasses.pieceOfClothing.PieceOfClothing;
+import jakarta.enterprise.context.ApplicationScoped;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
 
+@ApplicationScoped
 public class PieceOfClothingMapper {
     public static PieceOfClothing mapPutPieceOfClothingRequestToPieceOfClothing(PutPieceOfClothingRequest putPieceOfClothingRequest, UUID id) {
         return PieceOfClothing.builder()
@@ -28,8 +30,8 @@ public class PieceOfClothingMapper {
     public static GetPieceOfClothingResponse mapPieceOfClothingToGetPieceOfClothingResponse(PieceOfClothing pieceOfClothing) {
         return GetPieceOfClothingResponse.builder()
                 .name(pieceOfClothing.getName())
-                .owner(pieceOfClothing.getOwner().toString())
-                .categoryOfClothing(pieceOfClothing.getCategoryOfClothing().toString())
+                .owner(pieceOfClothing.getOwner() != null ? pieceOfClothing.getOwner().toString() : "No owner")
+                .categoryOfClothing(pieceOfClothing.getCategoryOfClothing() != null ? pieceOfClothing.getCategoryOfClothing().toString() : "No category of clothing")
                 .resellPrice(pieceOfClothing.getResellPrice().toString())
                 .size(pieceOfClothing.getSize().toString())
                 .build();
@@ -43,8 +45,8 @@ public class PieceOfClothingMapper {
             GetPiecesOfClothingResponse.PieceOfClothingDTO pieceOfClothingDTO = new GetPiecesOfClothingResponse.PieceOfClothingDTO();
             pieceOfClothingDTO.id = pieceOfClothing.getId().toString();
             pieceOfClothingDTO.name = pieceOfClothing.getName();
-            pieceOfClothingDTO.owner = pieceOfClothing.getOwner().toString();
-            pieceOfClothingDTO.categoryOfClothing = pieceOfClothing.getCategoryOfClothing().toString();
+            pieceOfClothingDTO.owner = pieceOfClothing.getOwner() != null ? pieceOfClothing.getOwner().toString() : "No owner";
+            pieceOfClothingDTO.categoryOfClothing = pieceOfClothing.getCategoryOfClothing() != null ? pieceOfClothing.getCategoryOfClothing().toString() : "No category of clothing";
             pieceOfClothingDTO.resellPrice = pieceOfClothing.getResellPrice();
             pieceOfClothingDTO.size = pieceOfClothing.getSize().toString();
             response.piecesOfClothing.add(pieceOfClothingDTO);

@@ -4,12 +4,14 @@ import ekstra.jest.JEE.Requests.PutCategoryOfClothingRequest;
 import ekstra.jest.JEE.Responses.GetCategoriesOfClothingResponse;
 import ekstra.jest.JEE.Responses.GetCategoryOfClothingResponse;
 import ekstra.jest.JEE.businessClasses.categoryOfClothing.CategoryOfClothing;
+import jakarta.enterprise.context.ApplicationScoped;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
 
+@ApplicationScoped
 public class CategoryOfClothingMapper {
     public static CategoryOfClothing mapPutCategoryOfClothingRequestToCategoryOfClothing(PutCategoryOfClothingRequest putCategoryOfClothingRequest, UUID id) {
         return CategoryOfClothing.builder()
@@ -24,6 +26,7 @@ public class CategoryOfClothingMapper {
                     case "FEET" -> CategoryOfClothing.WhereWearClothing.FEET;
                     default -> CategoryOfClothing.WhereWearClothing.TORSO;
                 }))
+                .clothingBelongingToType(new ArrayList<>())
                 .build();
     }
 
@@ -32,7 +35,7 @@ public class CategoryOfClothingMapper {
                 .name(categoryOfClothing.getName())
                 .isTrendy(categoryOfClothing.getIsTrendy())
                 .whereWearClothing(categoryOfClothing.getWhereWearClothing().toString())
-                .clothingBelongingToType(categoryOfClothing.getClothingBelongingToType().toString())
+                .clothingBelongingToType(categoryOfClothing.getClothingBelongingToType() != null ? categoryOfClothing.getClothingBelongingToType().toString() : "No clothing belonging to type")
                 .build();
     }
 

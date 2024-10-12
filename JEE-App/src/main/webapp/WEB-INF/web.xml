@@ -4,17 +4,4 @@
          xsi:schemaLocation="https://jakarta.ee/xml/ns/jakartaee https://jakarta.ee/xml/ns/jakartaee/web-app_6_0.xsd"
          version="6.0"
          metadata-complete="false">
-
-    <listener>
-        <listener-class>ekstra.jest.JEE.config.listeners.CreatePseudoDatabase</listener-class>
-    </listener>
-
-    <listener>
-        <listener-class>ekstra.jest.JEE.config.listeners.CreateServices</listener-class>
-    </listener>
-
-    <listener>
-        <listener-class>ekstra.jest.JEE.config.listeners.CreateControllers</listener-class>
-    </listener>
-
 </web-app>

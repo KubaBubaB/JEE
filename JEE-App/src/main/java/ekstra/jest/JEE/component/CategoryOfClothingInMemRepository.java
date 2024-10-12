@@ -2,14 +2,18 @@ package ekstra.jest.JEE.component;
 
 import ekstra.jest.JEE.businessClasses.categoryOfClothing.CategoryOfClothing;
 import ekstra.jest.JEE.interfaces.CategoryOfClothingRepository;
+import jakarta.enterprise.context.RequestScoped;
+import jakarta.inject.Inject;
 
 import java.util.HashMap;
 import java.util.Optional;
 import java.util.UUID;
 
+@RequestScoped
 public class CategoryOfClothingInMemRepository implements CategoryOfClothingRepository {
     private final PseudoDatabase pseudoDatabase;
 
+    @Inject
     public CategoryOfClothingInMemRepository(PseudoDatabase pseudoDatabase) {
         this.pseudoDatabase = pseudoDatabase;
     }

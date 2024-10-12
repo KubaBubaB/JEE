@@ -4,6 +4,9 @@ import ekstra.jest.JEE.Requests.UpdatePersonRequest;
 import ekstra.jest.JEE.businessClasses.person.Person;
 import ekstra.jest.JEE.interfaces.PersonRepository;
 import ekstra.jest.JEE.interfaces.PieceOfClothingRepository;
+import jakarta.enterprise.context.RequestScoped;
+import jakarta.inject.Inject;
+import lombok.NoArgsConstructor;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -14,15 +17,18 @@ import java.util.HashMap;
 import java.util.Optional;
 import java.util.UUID;
 
+@RequestScoped
+@NoArgsConstructor(force = true)
 public class PersonService {
     private final PersonRepository personRepository;
     private final PieceOfClothingRepository pieceOfClothingRepository;
     private final Path photoDirectory;
 
-    public PersonService(PersonRepository personRepository, PieceOfClothingRepository pieceOfClothingRepository, Path photoDirectory) {
+    @Inject
+    public PersonService(PersonRepository personRepository, PieceOfClothingRepository pieceOfClothingRepository) {
         this.personRepository = personRepository;
         this.pieceOfClothingRepository = pieceOfClothingRepository;
-        this.photoDirectory = photoDirectory;
+        this.photoDirectory = Path.of("C:\\StudiaHere\\TEMP");
     }
 
     public void savePerson(UUID key, Person value){

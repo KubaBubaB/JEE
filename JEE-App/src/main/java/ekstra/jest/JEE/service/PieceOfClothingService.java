@@ -4,19 +4,25 @@ import ekstra.jest.JEE.Requests.UpdatePieceOfClothingRequest;
 import ekstra.jest.JEE.businessClasses.categoryOfClothing.CategoryOfClothing;
 import ekstra.jest.JEE.businessClasses.person.Person;
 import ekstra.jest.JEE.businessClasses.pieceOfClothing.PieceOfClothing;
-import ekstra.jest.JEE.exceptions.NotFoundException;
 import ekstra.jest.JEE.interfaces.CategoryOfClothingRepository;
 import ekstra.jest.JEE.interfaces.PersonRepository;
 import ekstra.jest.JEE.interfaces.PieceOfClothingRepository;
+import jakarta.enterprise.context.RequestScoped;
+import jakarta.inject.Inject;
+import lombok.NoArgsConstructor;
 
 import java.util.HashMap;
 import java.util.Optional;
 import java.util.UUID;
 
+@RequestScoped
+@NoArgsConstructor(force = true)
 public class PieceOfClothingService {
     private final PieceOfClothingRepository pieceOfClothingRepository;
     private final PersonRepository personRepository;
     private final CategoryOfClothingRepository categoryOfClothingRepository;
+
+    @Inject
     public PieceOfClothingService(PieceOfClothingRepository pieceOfClothingRepository, PersonRepository personRepository, CategoryOfClothingRepository categoryOfClothingRepository) {
         this.pieceOfClothingRepository = pieceOfClothingRepository;
         this.personRepository = personRepository;
@@ -59,22 +65,18 @@ public class PieceOfClothingService {
         pieceOfClothingRepository.remove(key);
     }
 
-    public void assignPieceOfClothingToPerson(UUID pieceOfClothingId, UUID personId) {
-        PieceOfClothing pieceOfClothing = pieceOfClothingRepository.get(pieceOfClothingId).orElseThrow(() -> new NotFoundException("Piece of clothing not found"));
-        Person person = personRepository.get(personId).orElseThrow(()-> new NotFoundException("Person not found"));
+    public void assignPieceOfClothingToPerson(PieceOfClothing pieceOfClothing, Person person) {
         pieceOfClothing.setOwner(person);
         person.getOwnedClothing().add(pieceOfClothing);
-        pieceOfClothingRepository.update(pieceOfClothingId, pieceOfClothing);
-        personRepository.update(personId, person);
+        pieceOfClothingRepository.update(pieceOfClothing.getId(), pieceOfClothing);
+        personRepository.update(person.getId(), person);
     }
 
-    public void assignPieceOfClothingToCategory(UUID pieceOfClothingId, UUID categoryOfClothingId) {
-        PieceOfClothing pieceOfClothing = pieceOfClothingRepository.get(pieceOfClothingId).orElseThrow(() -> new NotFoundException("Piece of clothing not found"));
-        CategoryOfClothing categoryOfClothing = categoryOfClothingRepository.get(categoryOfClothingId).orElseThrow(()-> new NotFoundException("Category not found"));
+    public void assignPieceOfClothingToCategory(PieceOfClothing pieceOfClothing, CategoryOfClothing categoryOfClothing) {
         pieceOfClothing.setCategoryOfClothing(categoryOfClothing);
         categoryOfClothing.getClothingBelongingToType().add(pieceOfClothing);
-        pieceOfClothingRepository.update(pieceOfClothingId, pieceOfClothing);
-        categoryOfClothingRepository.update(categoryOfClothingId, categoryOfClothing);
+        pieceOfClothingRepository.update(pieceOfClothing.getId(), pieceOfClothing);
+        categoryOfClothingRepository.update(categoryOfClothing.getId(), categoryOfClothing);
     }
 
     public void updatePieceOfClothing(PieceOfClothing pieceOfClothing, UpdatePieceOfClothingRequest request){

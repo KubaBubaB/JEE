@@ -7,23 +7,26 @@ import ekstra.jest.JEE.Responses.GetPersonResponse;
 import ekstra.jest.JEE.Responses.GetPersonsResponse;
 import ekstra.jest.JEE.exceptions.BadRequestException;
 import ekstra.jest.JEE.exceptions.NotFoundException;
+import ekstra.jest.JEE.interfaces.IPersonController;
 import ekstra.jest.JEE.service.PersonService;
+import jakarta.enterprise.context.RequestScoped;
+import jakarta.inject.Inject;
 
 import java.io.InputStream;
 import java.util.UUID;
 
-public class PersonController {
+@RequestScoped
+public class PersonController implements IPersonController {
     private final PersonService personService;
 
+    @Inject
     public PersonController(PersonService personService) {
         this.personService = personService;
     }
 
     public GetPersonResponse getPerson(UUID personId) {
-        if (personService.getPerson(personId).isEmpty()) {
-            throw new NotFoundException("No person with this id");
-        }
-        return PersonMapper.mapPersonToGetPersonResponse(personService.getPerson(personId).orElseThrow(NotFoundException::new));
+        var person = personService.getPerson(personId).orElseThrow(() -> new NotFoundException("No person with this id"));
+        return PersonMapper.mapPersonToGetPersonResponse(person);
     }
 
     public GetPersonsResponse getAllPersons() {

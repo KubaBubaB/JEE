@@ -5,10 +5,12 @@ import ekstra.jest.JEE.Responses.GetPersonResponse;
 import ekstra.jest.JEE.Responses.GetPersonsResponse;
 import ekstra.jest.JEE.businessClasses.person.Person;
 import ekstra.jest.JEE.businessClasses.pieceOfClothing.PieceOfClothing;
+import jakarta.enterprise.context.ApplicationScoped;
 
 import java.util.*;
 import java.util.stream.Collectors;
 
+@ApplicationScoped
 public class PersonMapper {
     public static Person mapPutPersonRequestToPerson(PutPersonRequest putPersonRequest, UUID id) {
         return Person.builder()

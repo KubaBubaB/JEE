@@ -1,18 +1,22 @@
 package ekstra.jest.JEE.component;
 
 
+import ekstra.jest.JEE.businessClasses.categoryOfClothing.CategoryOfClothing;
 import ekstra.jest.JEE.businessClasses.person.Person;
 import ekstra.jest.JEE.businessClasses.pieceOfClothing.PieceOfClothing;
-import ekstra.jest.JEE.businessClasses.categoryOfClothing.CategoryOfClothing;
+import jakarta.enterprise.context.ApplicationScoped;
 import lombok.Getter;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.UUID;
 
+@Getter
+@ApplicationScoped
 public class PseudoDatabase {
 
-    private static PseudoDatabase instance = null;
-
-    private PseudoDatabase() {
+    public PseudoDatabase() {
         // Initialize the database with some data
         Person person1 = new Person(UUID.randomUUID(), "Wlodzimierz", 100000.0, "Bialy", new Date(24062880000L), new ArrayList<>(), null);
         Person person2 = new Person(UUID.randomUUID(), "Jeremiasz", 10000.0, "Rozowy-Czlowiek", new Date(812981280000L), new ArrayList<>(), null);
@@ -69,18 +73,9 @@ public class PseudoDatabase {
         pieceOfClothingMap.put(pieceOfClothing8.getId(), pieceOfClothing8);
     }
 
-    public static PseudoDatabase getInstance() {
-        if (instance == null) {
-            instance = new PseudoDatabase();
-        }
-        return instance;
-    }
-    @Getter
     private final HashMap<UUID, Person> personMap = new HashMap<>();
 
-    @Getter
     private final HashMap<UUID, PieceOfClothing> pieceOfClothingMap = new HashMap<>();
 
-    @Getter
     private final HashMap<UUID, CategoryOfClothing> categoryOfClothingMap = new HashMap<>();
 }

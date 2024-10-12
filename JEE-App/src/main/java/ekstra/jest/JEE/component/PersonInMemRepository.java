@@ -2,15 +2,19 @@ package ekstra.jest.JEE.component;
 
 import ekstra.jest.JEE.businessClasses.person.Person;
 import ekstra.jest.JEE.interfaces.PersonRepository;
+import jakarta.enterprise.context.RequestScoped;
+import jakarta.inject.Inject;
 
 import java.util.HashMap;
 import java.util.Optional;
 import java.util.UUID;
 
+@RequestScoped
 public class PersonInMemRepository implements PersonRepository {
 
     private final PseudoDatabase pseudoDatabase;
 
+    @Inject
     public PersonInMemRepository(PseudoDatabase pseudoDatabase) {
         this.pseudoDatabase = pseudoDatabase;
     }

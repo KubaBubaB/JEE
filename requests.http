@@ -75,3 +75,97 @@ DELETE http://localhost:9080/JEE-App/api/persons/a786fdf4-e0b6-4360-98cb-dab711d
 
 ###
 
+# Get all categories
+
+GET http://localhost:9080/JEE-App/api/categories
+
+###
+
+# Create a new category
+
+PUT http://localhost:9080/JEE-App/api/categories/a786fdf4-e0b6-4360-98cb-dab711d57953
+Content-Type: application/json
+
+{
+  "whereWearClothing": "HEAD",
+  "name": "Beret",
+  "isTrendy": true
+}
+
+###
+
+# Get a single category
+
+GET http://localhost:9080/JEE-App/api/categories/a786fdf4-e0b6-4360-98cb-dab711d57953
+
+###
+
+# Update a category
+
+PATCH http://localhost:9080/JEE-App/api/categories/a786fdf4-e0b6-4360-98cb-dab711d57953
+Content-Type: application/json
+
+{
+  "isTrendy": false
+}
+
+###
+
+# Delete a category
+
+DELETE http://localhost:9080/JEE-App/api/categories/a786fdf4-e0b6-4360-98cb-dab711d57953
+
+
+###
+
+# Get all pieces
+
+GET http://localhost:9080/JEE-App/api/pieces
+
+###
+
+# Create a new piece
+
+PUT http://localhost:9080/JEE-App/api/pieces/a786fdf4-e0b6-4360-98cb-dab711d57952
+Content-Type: application/json
+
+{
+  "resellPrice": 43.21,
+  "name": "Super fajny t-shirt 3000",
+  "size": "XL"
+}
+
+###
+
+# Get a single piece
+
+GET http://localhost:9080/JEE-App/api/pieces/a786fdf4-e0b6-4360-98cb-dab711d57952
+
+###
+
+# Update a piece
+
+PATCH http://localhost:9080/JEE-App/api/pieces/a786fdf4-e0b6-4360-98cb-dab711d57952
+Content-Type: application/json
+
+{
+  "resellPrice": 12.73
+}
+
+###
+
+# Assign a person to a piece
+POST http://localhost:9080/JEE-App/api/pieces/a786fdf4-e0b6-4360-98cb-dab711d57952/persons/a786fdf4-e0b6-4360-98cb-dab711d57951
+
+###
+
+# Assign a category to a piece
+
+POST http://localhost:9080/JEE-App/api/pieces/a786fdf4-e0b6-4360-98cb-dab711d57952/categories/a786fdf4-e0b6-4360-98cb-dab711d57953
+
+
+###
+
+# Delete a piece
+
+DELETE http://localhost:9080/JEE-App/api/pieces/a786fdf4-e0b6-4360-98cb-dab711d57952
