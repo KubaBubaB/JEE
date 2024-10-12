@@ -11,6 +11,7 @@ import java.util.UUID;
 @NoArgsConstructor
 @AllArgsConstructor
 @ToString
+@Builder
 @EqualsAndHashCode
 public class PieceOfClothing {
     private UUID id;

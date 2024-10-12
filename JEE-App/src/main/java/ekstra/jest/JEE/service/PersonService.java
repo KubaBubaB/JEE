@@ -3,6 +3,7 @@ package ekstra.jest.JEE.service;
 import ekstra.jest.JEE.Requests.UpdatePersonRequest;
 import ekstra.jest.JEE.businessClasses.person.Person;
 import ekstra.jest.JEE.interfaces.PersonRepository;
+import ekstra.jest.JEE.interfaces.PieceOfClothingRepository;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -15,10 +16,12 @@ import java.util.UUID;
 
 public class PersonService {
     private final PersonRepository personRepository;
+    private final PieceOfClothingRepository pieceOfClothingRepository;
     private final Path photoDirectory;
 
-    public PersonService(PersonRepository personRepository, Path photoDirectory) {
+    public PersonService(PersonRepository personRepository, PieceOfClothingRepository pieceOfClothingRepository, Path photoDirectory) {
         this.personRepository = personRepository;
+        this.pieceOfClothingRepository = pieceOfClothingRepository;
         this.photoDirectory = photoDirectory;
     }
 
@@ -47,6 +50,12 @@ public class PersonService {
     }
 
     public void removePerson(UUID key) {
+        personRepository.get(key).ifPresent(person -> person.getOwnedClothing().forEach(pieceOfClothing -> {
+            pieceOfClothingRepository.get(pieceOfClothing.getId()).ifPresent(piece -> {
+                piece.setOwner(null);
+                pieceOfClothingRepository.update(piece.getId(), piece);
+            });
+        }));
         personRepository.remove(key);
     }
 

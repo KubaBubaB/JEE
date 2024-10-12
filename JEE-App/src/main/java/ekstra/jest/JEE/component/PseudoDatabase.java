@@ -55,8 +55,18 @@ public class PseudoDatabase {
         personMap.put(person3.getId(), person3);
         personMap.put(person4.getId(), person4);
 
-        System.out.println("Database initialized with 4 persons with ids: \n" + person1.getId() + "\n" + person2.getId() + "\n" + person3.getId() + "\n" + person4.getId());
+        categoryOfClothingMap.put(categoryOfClothing1.getId(), categoryOfClothing1);
+        categoryOfClothingMap.put(categoryOfClothing2.getId(), categoryOfClothing2);
+        categoryOfClothingMap.put(categoryOfClothing3.getId(), categoryOfClothing3);
 
+        pieceOfClothingMap.put(pieceOfClothing1.getId(), pieceOfClothing1);
+        pieceOfClothingMap.put(pieceOfClothing2.getId(), pieceOfClothing2);
+        pieceOfClothingMap.put(pieceOfClothing3.getId(), pieceOfClothing3);
+        pieceOfClothingMap.put(pieceOfClothing4.getId(), pieceOfClothing4);
+        pieceOfClothingMap.put(pieceOfClothing5.getId(), pieceOfClothing5);
+        pieceOfClothingMap.put(pieceOfClothing6.getId(), pieceOfClothing6);
+        pieceOfClothingMap.put(pieceOfClothing7.getId(), pieceOfClothing7);
+        pieceOfClothingMap.put(pieceOfClothing8.getId(), pieceOfClothing8);
     }
 
     public static PseudoDatabase getInstance() {
@@ -67,4 +77,10 @@ public class PseudoDatabase {
     }
     @Getter
     private final HashMap<UUID, Person> personMap = new HashMap<>();
+
+    @Getter
+    private final HashMap<UUID, PieceOfClothing> pieceOfClothingMap = new HashMap<>();
+
+    @Getter
+    private final HashMap<UUID, CategoryOfClothing> categoryOfClothingMap = new HashMap<>();
 }
