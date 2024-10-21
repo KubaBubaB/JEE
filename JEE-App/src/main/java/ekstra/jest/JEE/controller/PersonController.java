@@ -68,6 +68,13 @@ public class PersonController implements IPersonController {
             throw new BadRequestException("Person does not have a photo to update");
         }
         personService.patchPersonPhoto(person, is);
+    }
 
+    public void removePersonPhoto(UUID id) {
+        var person = personService.getPerson(id).orElseThrow(() -> new NotFoundException("No person with this id"));
+        if (person.getPhoto() == null) {
+            throw new BadRequestException("Person does not have a photo to remove");
+        }
+        personService.removePersonPhoto(person);
     }
 }

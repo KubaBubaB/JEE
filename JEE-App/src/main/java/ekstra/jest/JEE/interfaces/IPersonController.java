@@ -17,4 +17,5 @@ public interface IPersonController {
     void addPersonPhoto(UUID id, InputStream photo);
     byte[] getPersonPhoto(UUID id);
     void patchPersonPhoto(UUID id, InputStream is);
+    void removePersonPhoto(UUID id);
 }

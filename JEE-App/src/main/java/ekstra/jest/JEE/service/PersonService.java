@@ -13,6 +13,7 @@ import java.io.InputStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.StandardCopyOption;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Optional;
 import java.util.UUID;
@@ -37,6 +38,13 @@ public class PersonService {
 
     public Optional<Person> getPerson(UUID key){
         return personRepository.get(key);
+    }
+
+    public Optional<Person> getPersonByFirstNameAndLastName(String name) {
+        String[] names = name.split(" ");
+        return personRepository.getAll().values().stream()
+                .filter(person -> person.getFirstName().equals(names[0]) && person.getLastName().equals(names[1]))
+                .findFirst();
     }
 
     public HashMap<UUID, Person> getAllPersons() {
@@ -94,6 +102,16 @@ public class PersonService {
             Path photoPath = photoDirectory.resolve(person.getId().toString() + ".png");
             Files.copy(is, photoPath, StandardCopyOption.REPLACE_EXISTING);
             person.setPhoto(photoPath);
+            personRepository.update(person.getId(), person);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public void removePersonPhoto(Person person) {
+        try {
+            Files.delete(person.getPhoto());
+            person.setPhoto(null);
             personRepository.update(person.getId(), person);
         } catch (IOException e) {
             throw new RuntimeException(e);

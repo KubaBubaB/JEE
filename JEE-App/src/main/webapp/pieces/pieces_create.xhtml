@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="jakarta.faces.html"
+                xmlns:ui="jakarta.faces.facelets"
+                xmlns:f="jakarta.faces.core"
+                template="/WEB-INF/template/main.xhtml">
+
+    <f:metadata>
+        <f:viewAction action="#{pieceOfClothingCreate.init()}"/>
+    </f:metadata>
+
+    <ui:define name="content">
+        <article>
+            <header><h2>Create piece of clothing</h2></header>
+            <h:form styleClass="container" onreset="onReset()" enctype="multipart/form-data">
+
+                <div class="row">
+                    <div class="col-4 p-2">
+                        <div class="form-outline">
+                            <h:inputText id="name" value="#{pieceOfClothingCreate.piece.name}" styleClass="form-control"/>
+                            <h:outputLabel for="name" value="Name:" styleClass="form-label"/>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-4 p-2">
+                        <div class="form-outline">
+                            <h:inputText id="resellPrice" value="#{pieceOfClothingCreate.piece.resellPrice}" styleClass="form-control"/>
+                            <h:outputLabel for="resellPrice" value="Resell price:" styleClass="form-label"/>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-4 p-2">
+                        <fieldset>
+                            <legend class="form-label fs-6">Size: </legend>
+                            <ui:repeat value="#{pieceOfClothingCreate.sizes}" var="size">
+                                <div class="form-check">
+                                    <h:selectOneRadio id="radioId" group="size"
+                                                      value="#{pieceOfClothingCreate.piece.size}"
+                                                      styleClass="form-check-input"
+                                                      enabledClass="form-check-label">
+                                        <f:selectItem itemValue="#{size}" itemLabel="#{size}"/>
+                                    </h:selectOneRadio>
+                                </div>
+                            </ui:repeat>
+                        </fieldset>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-4 p-2">
+                        <fieldset>
+                            <legend class="form-label fs-6">Category of clothing: </legend>
+                            <ui:repeat value="#{pieceOfClothingCreate.categories}" var="category">
+                                <div class="form-check">
+                                    <h:selectOneRadio id="radioId1" group="category"
+                                                      value="#{pieceOfClothingCreate.piece.categoryName}"
+                                                      styleClass="form-check-input"
+                                                      enabledClass="form-check-label">
+                                        <f:selectItem itemValue="#{category}" itemLabel="#{category}"/>
+                                    </h:selectOneRadio>
+                                </div>
+                            </ui:repeat>
+                        </fieldset>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-4 p-2">
+                        <fieldset>
+                            <legend class="form-label fs-6">Owner: </legend>
+                            <ui:repeat value="#{pieceOfClothingCreate.owners}" var="owner">
+                                <div class="form-check">
+                                    <h:selectOneRadio id="radioId2" group="owner"
+                                                      value="#{pieceOfClothingCreate.piece.ownersName}"
+                                                      styleClass="form-check-input"
+                                                      enabledClass="form-check-label">
+                                        <f:selectItem itemValue="#{owner}" itemLabel="#{owner}"/>
+                                    </h:selectOneRadio>
+                                </div>
+                            </ui:repeat>
+                        </fieldset>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-2 p-2 text-center">
+                        <h:commandButton styleClass="btn btn-primary" value="Create"
+                                         action="#{pieceOfClothingCreate.saveAction()}"/>
+                    </div>
+                    <div class="col-2 p-2 text-center">
+                        <h:commandButton styleClass="btn btn-secondary" value="Cancel"
+                                         action="#{pieceOfClothingCreate.cancelAction()}"/>
+                    </div>
+                </div>
+            </h:form>
+        </article>
+    </ui:define>
+
+</ui:composition>

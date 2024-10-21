@@ -96,7 +96,7 @@ Content-Type: application/json
 
 # Get a single category
 
-GET http://localhost:9080/JEE-App/api/categories/a786fdf4-e0b6-4360-98cb-dab711d57953
+GET http://localhost:9080/JEE-App/api/categories/86bb44ce-16e5-4e98-81c6-f5c675610ad1
 
 ###
 

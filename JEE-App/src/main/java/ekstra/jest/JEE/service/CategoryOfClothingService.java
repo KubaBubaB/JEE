@@ -32,6 +32,10 @@ public class CategoryOfClothingService {
         return categoryOfClothingRepository.get(key);
     }
 
+    public Optional<CategoryOfClothing> getCategoryOfClothingByName(String name){
+        return categoryOfClothingRepository.getAll().values().stream().filter(category -> category.getName().equals(name)).findFirst();
+    }
+
     public HashMap<UUID, CategoryOfClothing> getAllCategoryOfClothing() {
         return categoryOfClothingRepository.getAll();
     }

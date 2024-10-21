@@ -161,6 +161,11 @@ public class ApiServlet extends HttpServlet {
                 pieceOfClothingController.removePieceOfClothing(uuid);
                 return;
             }
+            else if (path.matches(Patterns.PERSON_PHOTO.pattern())) {
+                UUID uuid = extractUuid(Patterns.PERSON_PHOTO, path);
+                personController.removePersonPhoto(uuid);
+                return;
+            }
         }
         response.sendError(HttpServletResponse.SC_BAD_REQUEST);
     }

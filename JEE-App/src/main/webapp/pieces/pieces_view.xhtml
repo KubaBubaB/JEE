@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="jakarta.faces.html"
+                xmlns:ui="jakarta.faces.facelets"
+                xmlns:f="jakarta.faces.core"
+                template="/WEB-INF/template/main.xhtml">
+
+    <f:metadata>
+        <f:viewParam name="id" value="#{pieceOfClothingView.pieceId}" required="true"/>
+        <f:viewAction action="#{pieceOfClothingView.init()}"/>
+    </f:metadata>
+
+    <ui:define name="content">
+        <article>
+            <header><h2><h:outputText value="#{pieceOfClothingView.piece.name}"/></h2></header>
+            <div class="container">
+                <div class="row">
+                    <div class="col-4">
+
+                        <div class="row mb-2">
+                            <div class="col-6">
+                                Owners name
+                            </div>
+                            <div class="col-6">
+                                <h:outputText value="#{pieceOfClothingView.piece.ownersName}"/>
+                            </div>
+                        </div>
+
+                        <div class="row mb-2">
+                            <div class="col-6">
+                                Size
+                            </div>
+                            <div class="col-6">
+                                <h:outputText value="#{pieceOfClothingView.piece.size}"/>
+                            </div>
+                        </div>
+
+                        <div class="row mb-2">
+                            <div class="col-6">
+                                Resell price
+                            </div>
+                            <div class="col-6">
+                                <h:outputText value="#{pieceOfClothingView.piece.resellPrice}"/>
+                            </div>
+                        </div>
+
+                        <div class="row mb-2">
+                            <div class="col-6">
+                                Name of category
+                            </div>
+                            <div class="col-6">
+                                <h:outputText value="#{pieceOfClothingView.piece.categoryName}"/>
+                            </div>
+                        </div>
+
+                    </div>
+
+                </div>
+            </div>
+        </article>
+    </ui:define>
+
+</ui:composition>

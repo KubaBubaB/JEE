@@ -33,6 +33,21 @@ public class PieceOfClothingService {
         pieceOfClothingRepository.save(key, value);
     }
 
+    public void saveWithExtraSteps(UUID key, PieceOfClothing value){
+        pieceOfClothingRepository.save(key, value);
+        personRepository.get(value.getOwner().getId()).ifPresent(person -> {
+            System.out.println(person.toString());
+            person.getOwnedClothing().add(value);
+            personRepository.update(person.getId(), person);
+        });
+
+        categoryOfClothingRepository.get(value.getCategoryOfClothing().getId()).ifPresent(categoryOfClothing -> {
+            System.out.println(categoryOfClothing.toString());
+            categoryOfClothing.getClothingBelongingToType().add(value);
+            categoryOfClothingRepository.update(categoryOfClothing.getId(), categoryOfClothing);
+        });
+    }
+
     public Optional<PieceOfClothing> getPieceOfClothing(UUID key){
         return pieceOfClothingRepository.get(key);
     }
