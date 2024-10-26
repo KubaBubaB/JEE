@@ -47,39 +47,15 @@ public class PieceOfClothingCreate {
     private PieceOfClothingCreateModel piece = PieceOfClothingCreateModel.builder().build();
 
     @Getter
-    private final String[] sizes = {"XS", "S", "M", "L", "XL", "XL"};
+    private final String[] sizes = {"XS", "S", "M", "L", "XL"};
 
     @Getter
     @Setter
     private List<String> categories = new ArrayList<>();
 
-    //@Getter
-    //@Setter
-    //@Builder
-    //@NoArgsConstructor
-    //@AllArgsConstructor(access = AccessLevel.PRIVATE)
-    //@ToString
-    //@EqualsAndHashCode
-    //public static class Category {
-    //    private String name;
-    //    private String id;
-    //}
     @Getter
     @Setter
     private List<String> owners = new ArrayList<>();;
-
-   // @Getter
-   // @Setter
-   // @Builder
-   // @NoArgsConstructor
-   // @AllArgsConstructor(access = AccessLevel.PRIVATE)
-   // @ToString
-   // @EqualsAndHashCode
-   // public static class Owner {
-   //     private String name;
-   //     private String id;
-   // }
-
 
     public String saveAction() {
         UUID key = UUID.randomUUID();
