@@ -1,1 +1,0 @@
-package ekstra.jest.JEE.config;

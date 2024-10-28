@@ -2,6 +2,7 @@ package ekstra.jest.JEE.service;
 
 import ekstra.jest.JEE.Requests.UpdateCategoryOfClothingRequest;
 import ekstra.jest.JEE.businessClasses.categoryOfClothing.CategoryOfClothing;
+import ekstra.jest.JEE.businessClasses.pieceOfClothing.PieceOfClothing;
 import ekstra.jest.JEE.interfaces.CategoryOfClothingRepository;
 import ekstra.jest.JEE.interfaces.PieceOfClothingRepository;
 import jakarta.enterprise.context.RequestScoped;
@@ -57,4 +58,10 @@ public class CategoryOfClothingService {
         categoryOfClothingRepository.remove(key);
     }
 
+    public void assignPieceOfClothingToCategory(UUID categoryId, PieceOfClothing piece) {
+        categoryOfClothingRepository.get(categoryId).ifPresent(category -> {
+            piece.setCategoryOfClothing(category);
+            pieceOfClothingRepository.update(piece.getId(), piece);
+        });
+    }
 }

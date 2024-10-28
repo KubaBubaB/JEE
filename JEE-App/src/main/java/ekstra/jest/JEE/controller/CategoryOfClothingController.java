@@ -5,16 +5,16 @@ import ekstra.jest.JEE.Requests.PutCategoryOfClothingRequest;
 import ekstra.jest.JEE.Requests.UpdateCategoryOfClothingRequest;
 import ekstra.jest.JEE.Responses.GetCategoriesOfClothingResponse;
 import ekstra.jest.JEE.Responses.GetCategoryOfClothingResponse;
-import ekstra.jest.JEE.exceptions.BadRequestException;
-import ekstra.jest.JEE.exceptions.NotFoundException;
 import ekstra.jest.JEE.interfaces.ICategoryOfClothingController;
 import ekstra.jest.JEE.service.CategoryOfClothingService;
-import jakarta.enterprise.context.RequestScoped;
 import jakarta.inject.Inject;
+import jakarta.ws.rs.NotFoundException;
+import jakarta.ws.rs.BadRequestException;
+import jakarta.ws.rs.Path;
 
 import java.util.UUID;
 
-@RequestScoped
+@Path("")
 public class CategoryOfClothingController implements ICategoryOfClothingController {
     private final CategoryOfClothingService categoryOfClothingService;
 

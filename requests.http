@@ -73,7 +73,7 @@ Content-Type: application/json
 
 DELETE http://localhost:9080/JEE-App/api/persons/a786fdf4-e0b6-4360-98cb-dab711d57951
 
-###
+########################################################################################################################
 
 # Get all categories
 
@@ -96,7 +96,7 @@ Content-Type: application/json
 
 # Get a single category
 
-GET http://localhost:9080/JEE-App/api/categories/86bb44ce-16e5-4e98-81c6-f5c675610ad1
+GET http://localhost:9080/JEE-App/api/categories/a786fdf4-e0b6-4360-98cb-dab711d57953
 
 ###
 
@@ -116,7 +116,7 @@ Content-Type: application/json
 DELETE http://localhost:9080/JEE-App/api/categories/a786fdf4-e0b6-4360-98cb-dab711d57953
 
 
-###
+########################################################################################################################
 
 # Get all pieces
 
@@ -126,7 +126,7 @@ GET http://localhost:9080/JEE-App/api/pieces
 
 # Create a new piece
 
-PUT http://localhost:9080/JEE-App/api/pieces/a786fdf4-e0b6-4360-98cb-dab711d57952
+PUT http://localhost:9080/JEE-App/api/categories/5a7c2555-10d1-49a0-966e-17648c44a9e8/pieces/a786fdf4-e0b6-4360-98cb-dab711d57952
 Content-Type: application/json
 
 {
@@ -134,6 +134,12 @@ Content-Type: application/json
   "name": "Super fajny t-shirt 3000",
   "size": "XL"
 }
+
+###
+
+# Get pieces of category
+
+GET http://localhost:9080/JEE-App/api/categories/5a7c2555-10d1-49a0-966e-17648c44a9e8/pieces
 
 ###
 
@@ -145,7 +151,7 @@ GET http://localhost:9080/JEE-App/api/pieces/a786fdf4-e0b6-4360-98cb-dab711d5795
 
 # Update a piece
 
-PATCH http://localhost:9080/JEE-App/api/pieces/a786fdf4-e0b6-4360-98cb-dab711d57952
+PATCH http://localhost:9080/JEE-App/api/categories/5a7c2555-10d1-49a0-966e-17648c44a9e8/pieces/a786fdf4-e0b6-4360-98cb-dab711d57952
 Content-Type: application/json
 
 {
@@ -168,4 +174,4 @@ POST http://localhost:9080/JEE-App/api/pieces/a786fdf4-e0b6-4360-98cb-dab711d579
 
 # Delete a piece
 
-DELETE http://localhost:9080/JEE-App/api/pieces/a786fdf4-e0b6-4360-98cb-dab711d57952
+DELETE http://localhost:9080/JEE-App/api/categories/679ceb7b-7d62-49d0-94b1-9e63fa9b1a55/pieces/94aeb2c4-2fef-4b86-9e74-bf812090b3a8

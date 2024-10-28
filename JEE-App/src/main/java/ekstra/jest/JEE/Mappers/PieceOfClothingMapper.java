@@ -3,6 +3,7 @@ package ekstra.jest.JEE.Mappers;
 import ekstra.jest.JEE.Requests.PutPieceOfClothingRequest;
 import ekstra.jest.JEE.Responses.GetPieceOfClothingResponse;
 import ekstra.jest.JEE.Responses.GetPiecesOfClothingResponse;
+import ekstra.jest.JEE.businessClasses.categoryOfClothing.CategoryOfClothing;
 import ekstra.jest.JEE.businessClasses.pieceOfClothing.PieceOfClothing;
 import jakarta.enterprise.context.ApplicationScoped;
 
@@ -13,7 +14,7 @@ import java.util.UUID;
 
 @ApplicationScoped
 public class PieceOfClothingMapper {
-    public static PieceOfClothing mapPutPieceOfClothingRequestToPieceOfClothing(PutPieceOfClothingRequest putPieceOfClothingRequest, UUID id) {
+    public static PieceOfClothing mapPutPieceOfClothingRequestToPieceOfClothing(PutPieceOfClothingRequest putPieceOfClothingRequest, UUID id, CategoryOfClothing categoryOfClothing) {
         return PieceOfClothing.builder()
                 .id(id)
                 .name(putPieceOfClothingRequest.getName())
@@ -24,6 +25,7 @@ public class PieceOfClothingMapper {
                     case "XL" -> PieceOfClothing.ClothingSize.XL;
                     default -> PieceOfClothing.ClothingSize.M;
                 }))
+                .categoryOfClothing(categoryOfClothing)
                 .build();
     }
 

@@ -5,18 +5,18 @@ import ekstra.jest.JEE.Requests.PutPieceOfClothingRequest;
 import ekstra.jest.JEE.Requests.UpdatePieceOfClothingRequest;
 import ekstra.jest.JEE.Responses.GetPieceOfClothingResponse;
 import ekstra.jest.JEE.Responses.GetPiecesOfClothingResponse;
-import ekstra.jest.JEE.exceptions.BadRequestException;
-import ekstra.jest.JEE.exceptions.NotFoundException;
 import ekstra.jest.JEE.interfaces.IPieceOfClothingController;
 import ekstra.jest.JEE.service.CategoryOfClothingService;
 import ekstra.jest.JEE.service.PersonService;
 import ekstra.jest.JEE.service.PieceOfClothingService;
-import jakarta.enterprise.context.RequestScoped;
 import jakarta.inject.Inject;
+import jakarta.ws.rs.BadRequestException;
+import jakarta.ws.rs.NotFoundException;
+import jakarta.ws.rs.Path;
 
 import java.util.UUID;
 
-@RequestScoped
+@Path("")
 public class PieceOfClothingController implements IPieceOfClothingController {
     private final PieceOfClothingService pieceOfClothingService;
     private final CategoryOfClothingService categoryOfClothingService;
@@ -29,30 +29,59 @@ public class PieceOfClothingController implements IPieceOfClothingController {
         this.personService = personService;
     }
 
+    @Override
     public GetPieceOfClothingResponse getPieceOfClothing(UUID pieceOfClothingId) {
         var pieceOfClothing = pieceOfClothingService.getPieceOfClothing(pieceOfClothingId).orElseThrow(() -> new NotFoundException("No piece of clothing with this id"));
         return PieceOfClothingMapper.mapPieceOfClothingToGetPieceOfClothingResponse(pieceOfClothing);
     }
 
+    @Override
     public GetPiecesOfClothingResponse getAllPiecesOfClothing() {
         return PieceOfClothingMapper.mapPiecesOfClothingToGetPiecesOfClothingResponse(pieceOfClothingService.getAllPieceOfClothing());
     }
 
-    public void addPieceOfClothing(UUID id, PutPieceOfClothingRequest putPieceOfClothingRequest) {
-        pieceOfClothingService.getPieceOfClothing(id).ifPresentOrElse(pieceOfClothing -> {
-            throw new BadRequestException("Piece of clothing with this id already exists");
-        }, () -> pieceOfClothingService.savePieceOfClothing(id, PieceOfClothingMapper.mapPutPieceOfClothingRequestToPieceOfClothing(putPieceOfClothingRequest, id)));
+    @Override
+    public GetPiecesOfClothingResponse getAllPiecesOfClothingInCategory(UUID categoryId) {
+        var category = categoryOfClothingService.getCategoryOfClothing(categoryId).orElseThrow(() -> new NotFoundException("No category of clothing with this id"));
+        return PieceOfClothingMapper.mapPiecesOfClothingToGetPiecesOfClothingResponse(pieceOfClothingService.getAllPieceOfClothingInCategory(category));
     }
 
-    public void updatePieceOfClothing(UUID id, UpdatePieceOfClothingRequest updatePieceOfClothingRequest) {
+
+    @Override
+    public void addPieceOfClothing(UUID id, UUID categoryId, PutPieceOfClothingRequest putPieceOfClothingRequest) {
+        var category = categoryOfClothingService.getCategoryOfClothing(categoryId).orElseThrow(() -> new NotFoundException("No category of clothing with this id"));
+        pieceOfClothingService.getPieceOfClothing(id).ifPresentOrElse(pieceOfClothing -> {
+            throw new BadRequestException("Piece of clothing with this id already exists");
+        }, () -> {
+            var piece = PieceOfClothingMapper.mapPutPieceOfClothingRequestToPieceOfClothing(putPieceOfClothingRequest, id, category);
+            categoryOfClothingService.assignPieceOfClothingToCategory(categoryId, piece);
+            pieceOfClothingService.savePieceOfClothing(id, piece);
+        });
+    }
+
+    @Override
+    public void updatePieceOfClothing(UUID id, UUID categoryId, UpdatePieceOfClothingRequest updatePieceOfClothingRequest) {
         var pieceOfClothing = pieceOfClothingService.getPieceOfClothing(id).orElseThrow(() -> new NotFoundException("No piece of clothing with this id"));
+        var category = categoryOfClothingService.getCategoryOfClothing(categoryId).orElseThrow(() -> new NotFoundException("No category of clothing with this id"));
+        if(!pieceOfClothing.getCategoryOfClothing().getId().equals(category.getId())){
+            throw new BadRequestException("No piece of clothing with this id within this category");
+        }
         pieceOfClothingService.updatePieceOfClothing(pieceOfClothing, updatePieceOfClothingRequest);
     }
 
-    public void removePieceOfClothing(UUID id){
+    @Override
+    public void removePieceOfClothing(UUID id, UUID categoryId) {
+        var category = categoryOfClothingService.getCategoryOfClothing(categoryId).orElseThrow(() -> new NotFoundException("No category of clothing with this id"));
         var piece = pieceOfClothingService.getPieceOfClothing(id).orElseThrow(() -> new NotFoundException("No piece of clothing with this id"));
+        if(!category.getId().equals(piece.getCategoryOfClothing().getId())){
+            throw new BadRequestException("No piece of clothing with this id within this category");
+        }
         pieceOfClothingService.removePieceOfClothing(piece.getId());
     }
+
+
+
+
 
     public void assignCategory(UUID pieceId, UUID categoryId){
         var category = categoryOfClothingService.getCategoryOfClothing(categoryId).orElseThrow(() -> new NotFoundException("No category of clothing with this id"));

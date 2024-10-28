@@ -29,6 +29,12 @@ public class PieceOfClothingService {
         this.categoryOfClothingRepository = categoryOfClothingRepository;
     }
 
+    public HashMap<UUID, PieceOfClothing> getAllPieceOfClothingInCategory(CategoryOfClothing category) {
+        var response = getAllPieceOfClothing();
+        response.entrySet().removeIf(entry -> !entry.getValue().getCategoryOfClothing().getId().equals(category.getId()));
+        return response;
+    }
+
     public void savePieceOfClothing(UUID key, PieceOfClothing value){
         pieceOfClothingRepository.save(key, value);
     }
