@@ -6,6 +6,7 @@ import ekstra.jest.JEE.interfaces.PersonRepository;
 import ekstra.jest.JEE.interfaces.PieceOfClothingRepository;
 import jakarta.enterprise.context.RequestScoped;
 import jakarta.inject.Inject;
+import jakarta.transaction.Transactional;
 import lombok.NoArgsConstructor;
 
 import java.io.IOException;
@@ -13,7 +14,6 @@ import java.io.InputStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.StandardCopyOption;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Optional;
 import java.util.UUID;
@@ -32,6 +32,7 @@ public class PersonService {
         this.photoDirectory = Path.of("C:\\StudiaHere\\TEMP");
     }
 
+    @Transactional
     public void savePerson(UUID key, Person value){
         personRepository.save(key, value);
     }
@@ -51,6 +52,7 @@ public class PersonService {
         return personRepository.getAll();
     }
 
+    @Transactional
     public void updatePerson(Person person, UpdatePersonRequest updatePersonRequest) {
         personRepository.update(person.getId(), new Person(
                 person.getId(),
@@ -63,13 +65,15 @@ public class PersonService {
         ));
     }
 
+    @Transactional
     public void removePerson(UUID key) {
-        personRepository.get(key).ifPresent(person -> person.getOwnedClothing().forEach(pieceOfClothing -> {
-            pieceOfClothingRepository.get(pieceOfClothing.getId()).ifPresent(piece -> {
-                piece.setOwner(null);
-                pieceOfClothingRepository.update(piece.getId(), piece);
-            });
-        }));
+        // Not needed with JPA
+        //personRepository.get(key).ifPresent(person -> person.getOwnedClothing().forEach(pieceOfClothing -> {
+        //    pieceOfClothingRepository.get(pieceOfClothing.getId()).ifPresent(piece -> {
+        //        piece.setOwner(null);
+        //        pieceOfClothingRepository.update(piece.getId(), piece);
+        //    });
+        //}));
         personRepository.remove(key);
     }
 

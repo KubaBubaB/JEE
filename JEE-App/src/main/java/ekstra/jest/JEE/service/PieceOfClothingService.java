@@ -9,6 +9,7 @@ import ekstra.jest.JEE.interfaces.PersonRepository;
 import ekstra.jest.JEE.interfaces.PieceOfClothingRepository;
 import jakarta.enterprise.context.RequestScoped;
 import jakarta.inject.Inject;
+import jakarta.transaction.Transactional;
 import lombok.NoArgsConstructor;
 
 import java.util.HashMap;
@@ -35,6 +36,7 @@ public class PieceOfClothingService {
         return response;
     }
 
+    @Transactional
     public void savePieceOfClothing(UUID key, PieceOfClothing value){
         pieceOfClothingRepository.save(key, value);
     }
@@ -62,26 +64,28 @@ public class PieceOfClothingService {
         return pieceOfClothingRepository.getAll();
     }
 
+    @Transactional
     public void removePieceOfClothing(UUID key) {
-        Optional<Person> owner = personRepository.getAll().values().stream()
-                .filter(person -> person.getOwnedClothing().stream()
-                        .anyMatch(pieceOfClothing -> pieceOfClothing.getId().equals(key)))
-                .findFirst();
-        Optional<CategoryOfClothing> category = categoryOfClothingRepository.getAll().values().stream()
-                .filter(categoryOfClothing -> categoryOfClothing.getClothingBelongingToType().stream()
-                        .anyMatch(pieceOfClothing -> pieceOfClothing.getId().equals(key)))
-                .findFirst();
-
-        owner.ifPresent(person ->
-        {
-            person.getOwnedClothing().removeIf(pieceOfClothing -> pieceOfClothing.getId().equals(key));
-            personRepository.update(person.getId(), person);
-        });
-        category.ifPresent(categoryOfClothing ->
-        {
-            categoryOfClothing.getClothingBelongingToType().removeIf(pieceOfClothing -> pieceOfClothing.getId().equals(key));
-            categoryOfClothingRepository.update(categoryOfClothing.getId(), categoryOfClothing);
-        });
+        // Not needed with JPA
+        //Optional<Person> owner = personRepository.getAll().values().stream()
+        //        .filter(person -> person.getOwnedClothing().stream()
+        //                .anyMatch(pieceOfClothing -> pieceOfClothing.getId().equals(key)))
+        //        .findFirst();
+        //Optional<CategoryOfClothing> category = categoryOfClothingRepository.getAll().values().stream()
+        //        .filter(categoryOfClothing -> categoryOfClothing.getClothingBelongingToType().stream()
+        //                .anyMatch(pieceOfClothing -> pieceOfClothing.getId().equals(key)))
+        //        .findFirst();
+        //
+        //owner.ifPresent(person ->
+        //{
+        //    person.getOwnedClothing().removeIf(pieceOfClothing -> pieceOfClothing.getId().equals(key));
+        //    personRepository.update(person.getId(), person);
+        //});
+        //category.ifPresent(categoryOfClothing ->
+        //{
+        //    categoryOfClothing.getClothingBelongingToType().removeIf(pieceOfClothing -> pieceOfClothing.getId().equals(key));
+        //    categoryOfClothingRepository.update(categoryOfClothing.getId(), categoryOfClothing);
+        //});
 
         pieceOfClothingRepository.remove(key);
     }
@@ -100,6 +104,7 @@ public class PieceOfClothingService {
         categoryOfClothingRepository.update(categoryOfClothing.getId(), categoryOfClothing);
     }
 
+    @Transactional
     public void updatePieceOfClothing(PieceOfClothing pieceOfClothing, UpdatePieceOfClothingRequest request){
         pieceOfClothing.setResellPrice(request.getResellPrice());
         pieceOfClothingRepository.update(pieceOfClothing.getId(), pieceOfClothing);

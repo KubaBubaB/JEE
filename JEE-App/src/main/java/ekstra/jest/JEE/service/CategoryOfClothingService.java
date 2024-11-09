@@ -7,6 +7,7 @@ import ekstra.jest.JEE.interfaces.CategoryOfClothingRepository;
 import ekstra.jest.JEE.interfaces.PieceOfClothingRepository;
 import jakarta.enterprise.context.RequestScoped;
 import jakarta.inject.Inject;
+import jakarta.transaction.Transactional;
 import lombok.NoArgsConstructor;
 
 import java.util.HashMap;
@@ -25,6 +26,7 @@ public class CategoryOfClothingService {
         this.pieceOfClothingRepository = pieceOfClothingRepository;
     }
 
+    @Transactional
     public void saveCategoryOfClothing(UUID key, CategoryOfClothing value){
         categoryOfClothingRepository.save(key, value);
     }
@@ -41,20 +43,23 @@ public class CategoryOfClothingService {
         return categoryOfClothingRepository.getAll();
     }
 
+    @Transactional
     public void updateCategoryOfClothing(CategoryOfClothing category, UpdateCategoryOfClothingRequest request){
         category.setIsTrendy(request.getIsTrendy());
         categoryOfClothingRepository.update(category.getId(), category);
     }
 
+    @Transactional
     public void removeCategoryOfClothing(UUID key) {
-        categoryOfClothingRepository.get(key).ifPresent(category -> {
-            category.getClothingBelongingToType().forEach(pieceOfClothing -> {
-                pieceOfClothingRepository.get(pieceOfClothing.getId()).ifPresent(piece -> {
-                    piece.setCategoryOfClothing(null);
-                    pieceOfClothingRepository.update(piece.getId(), piece);
-                });
-            });
-        });
+        // Not needed with JPA
+        //categoryOfClothingRepository.get(key).ifPresent(category -> {
+        //    category.getClothingBelongingToType().forEach(pieceOfClothing -> {
+        //        pieceOfClothingRepository.get(pieceOfClothing.getId()).ifPresent(piece -> {
+        //            piece.setCategoryOfClothing(null);
+        //            pieceOfClothingRepository.update(piece.getId(), piece);
+        //        });
+        //    });
+        //});
         categoryOfClothingRepository.remove(key);
     }
 

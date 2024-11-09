@@ -126,7 +126,7 @@ GET http://localhost:9080/JEE-App/api/pieces
 
 # Create a new piece
 
-PUT http://localhost:9080/JEE-App/api/categories/5a7c2555-10d1-49a0-966e-17648c44a9e8/pieces/a786fdf4-e0b6-4360-98cb-dab711d57952
+PUT http://localhost:9080/JEE-App/api/categories/a786fdf4-e0b6-4360-98cb-dab711d57953/pieces/a786fdf4-e0b6-4360-98cb-dab711d57952
 Content-Type: application/json
 
 {
@@ -139,7 +139,7 @@ Content-Type: application/json
 
 # Get pieces of category
 
-GET http://localhost:9080/JEE-App/api/categories/5a7c2555-10d1-49a0-966e-17648c44a9e8/pieces
+GET http://localhost:9080/JEE-App/api/categories/a786fdf4-e0b6-4360-98cb-dab711d57953/pieces
 
 ###
 
@@ -151,7 +151,7 @@ GET http://localhost:9080/JEE-App/api/pieces/a786fdf4-e0b6-4360-98cb-dab711d5795
 
 # Update a piece
 
-PATCH http://localhost:9080/JEE-App/api/categories/5a7c2555-10d1-49a0-966e-17648c44a9e8/pieces/a786fdf4-e0b6-4360-98cb-dab711d57952
+PATCH http://localhost:9080/JEE-App/api/categories/a786fdf4-e0b6-4360-98cb-dab711d57953/pieces/a786fdf4-e0b6-4360-98cb-dab711d57952
 Content-Type: application/json
 
 {

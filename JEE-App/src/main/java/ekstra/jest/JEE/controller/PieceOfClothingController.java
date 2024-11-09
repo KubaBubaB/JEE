@@ -54,7 +54,7 @@ public class PieceOfClothingController implements IPieceOfClothingController {
             throw new BadRequestException("Piece of clothing with this id already exists");
         }, () -> {
             var piece = PieceOfClothingMapper.mapPutPieceOfClothingRequestToPieceOfClothing(putPieceOfClothingRequest, id, category);
-            categoryOfClothingService.assignPieceOfClothingToCategory(categoryId, piece);
+            //categoryOfClothingService.assignPieceOfClothingToCategory(categoryId, piece); // Maybe not neede with JPA?
             pieceOfClothingService.savePieceOfClothing(id, piece);
         });
     }

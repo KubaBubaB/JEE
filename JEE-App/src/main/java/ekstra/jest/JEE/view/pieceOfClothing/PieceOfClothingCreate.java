@@ -61,7 +61,8 @@ public class PieceOfClothingCreate {
         UUID key = UUID.randomUUID();
         Person owner = personService.getPersonByFirstNameAndLastName(piece.getOwnersName()).orElse(null);
         CategoryOfClothing category = categoryOfClothingService.getCategoryOfClothingByName(piece.getCategoryName()).orElse(null);
-        pieceOfClothingService.saveWithExtraSteps(key, mapper.modelToPiece(key, piece, owner, category));
+        //pieceOfClothingService.saveWithExtraSteps(key, mapper.modelToPiece(key, piece, owner, category)); <---- not needed with JPA
+        pieceOfClothingService.savePieceOfClothing(key, mapper.modelToPiece(key, piece, owner, category));
         return  (category == null ? "/categories/categories_list.xhtml?faces-redirect=true?" : "/categories/categories_view.xhtml?faces-redirect=true&id=" + category.getId());
     }
 

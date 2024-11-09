@@ -17,6 +17,7 @@ public interface ICategoryOfClothingController {
     GetCategoryOfClothingResponse getCategoryOfClothing(@PathParam("id") UUID id);
 
     @GET
+    @Path("/categories")
     @Produces(MediaType.APPLICATION_JSON)
     GetCategoriesOfClothingResponse getAllCategoriesOfClothing();
 
