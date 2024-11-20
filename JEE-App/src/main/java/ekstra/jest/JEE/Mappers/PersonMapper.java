@@ -4,6 +4,7 @@ import ekstra.jest.JEE.Requests.PutPersonRequest;
 import ekstra.jest.JEE.Responses.GetPersonResponse;
 import ekstra.jest.JEE.Responses.GetPersonsResponse;
 import ekstra.jest.JEE.businessClasses.person.Person;
+import ekstra.jest.JEE.businessClasses.person.PersonRoles;
 import ekstra.jest.JEE.businessClasses.pieceOfClothing.PieceOfClothing;
 import jakarta.enterprise.context.ApplicationScoped;
 
@@ -15,11 +16,14 @@ public class PersonMapper {
     public static Person mapPutPersonRequestToPerson(PutPersonRequest putPersonRequest, UUID id) {
         return Person.builder()
                 .id(id)
+                .login(putPersonRequest.getLogin())
+                .password(putPersonRequest.getPassword())
                 .firstName(putPersonRequest.getFirstName())
                 .lastName(putPersonRequest.getLastName())
                 .dateOfBirth(new Date(Long.parseLong(putPersonRequest.getDateOfBirth())))
                 .moneyInBankAcc(putPersonRequest.getMoneyInBankAcc())
                 .ownedClothing(new ArrayList<>())
+                .roles(List.of(PersonRoles.USER))
                 .build();
     }
 

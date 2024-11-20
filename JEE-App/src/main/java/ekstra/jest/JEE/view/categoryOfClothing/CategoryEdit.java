@@ -5,13 +5,13 @@ import ekstra.jest.JEE.Requests.UpdateCategoryOfClothingRequest;
 import ekstra.jest.JEE.businessClasses.categoryOfClothing.CategoryOfClothing;
 import ekstra.jest.JEE.model.categoryOfClothing.CategoryEditModel;
 import ekstra.jest.JEE.service.CategoryOfClothingService;
+import jakarta.ejb.EJB;
 import jakarta.enterprise.context.RequestScoped;
 import jakarta.faces.context.FacesContext;
 import jakarta.inject.Inject;
 import jakarta.inject.Named;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.io.IOException;
@@ -22,9 +22,9 @@ import java.util.UUID;
 
 @RequestScoped
 @Named
-@NoArgsConstructor(force = true)
+//@NoArgsConstructor(force = true)
 public class CategoryEdit {
-    private final CategoryOfClothingService categoryOfClothingService;
+    private CategoryOfClothingService categoryOfClothingService;
     private final EntitiesToModelsMapper mapper;
 
     @Setter
@@ -39,8 +39,13 @@ public class CategoryEdit {
 
     @Inject
     public CategoryEdit(CategoryOfClothingService categoryOfClothingService, EntitiesToModelsMapper mapper) {
-        this.categoryOfClothingService = categoryOfClothingService;
+        //this.categoryOfClothingService = categoryOfClothingService;
         this.mapper = mapper;
+    }
+
+    @EJB
+    public void setCategoryOfClothingService(CategoryOfClothingService categoryOfClothingService) {
+        this.categoryOfClothingService = categoryOfClothingService;
     }
 
     public void init() throws IOException {

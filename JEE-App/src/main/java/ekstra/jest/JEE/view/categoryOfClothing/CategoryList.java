@@ -3,6 +3,7 @@ package ekstra.jest.JEE.view.categoryOfClothing;
 import ekstra.jest.JEE.Mappers.EntitiesToModelsMapper;
 import ekstra.jest.JEE.model.categoryOfClothing.CategoriesOfClothingModel;
 import ekstra.jest.JEE.service.CategoryOfClothingService;
+import jakarta.ejb.EJB;
 import jakarta.enterprise.context.RequestScoped;
 import jakarta.inject.Inject;
 import jakarta.inject.Named;
@@ -10,14 +11,19 @@ import jakarta.inject.Named;
 @RequestScoped
 @Named
 public class CategoryList {
-    private final CategoryOfClothingService service;
+    private CategoryOfClothingService service;
     private final EntitiesToModelsMapper mapper;
     private CategoriesOfClothingModel categories;
 
     @Inject
     public CategoryList(CategoryOfClothingService service, EntitiesToModelsMapper mapper) {
-        this.service = service;
+        //this.service = service;
         this.mapper = mapper;
+    }
+
+    @EJB
+    public void setService(CategoryOfClothingService service) {
+        this.service = service;
     }
 
     public CategoriesOfClothingModel getCategories() {

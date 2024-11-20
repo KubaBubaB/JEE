@@ -1,11 +1,22 @@
-# Get all persons.
+# Encoded values:
+#admin: YWRtaW46YWRtaW4=
+#wlodzimierz: V2xvZGVrMTIzOnNpbG5laGFzbG8=
+#jeremiasz: SmVycnkyMTQ3OnNpbG5laGFzbG8=
+#anka: QW5rYUZpcmFua2E6c2lsbmVoYXNsbw==
+#Piotek: UGlvdHJlazpzaWxuZWhhc2xv
+#jakubek (not initialized): amFrdWJlazpzaWxuZWhhc2xv
 
+
+# Get all persons.
+// @no-cookie-jar
 GET http://localhost:9080/JEE-App/api/persons
+Authorization: Basic YWRtaW46YWRtaW4=
+# Authorization: Basic amFrdWJlazpzaWxuZWhhc2xv
 
 ###
 
 # Create a new person
-
+// @no-cookie-jar
 PUT http://localhost:9080/JEE-App/api/persons/a786fdf4-e0b6-4360-98cb-dab711d57951
 Content-Type: application/json
 
@@ -13,53 +24,26 @@ Content-Type: application/json
   "firstName": "Jacob",
   "moneyInBankAcc": 1000.24,
   "lastName": "Markale",
-  "dateOfBirth": "812981280000"
+  "dateOfBirth": "812981280000",
+  "login": "jakubek",
+  "password": "silnehaslo"
 }
 
 ###
 
 # Get a single person.
-
+// @no-cookie-jar
 GET http://localhost:9080/JEE-App/api/persons/a786fdf4-e0b6-4360-98cb-dab711d57951
-
-###
-
-# Get a person photo
-
-GET http://localhost:9080/JEE-App/api/persons/a786fdf4-e0b6-4360-98cb-dab711d57951/photo
-
-###
-
-
-# Create a person photo
-
-PUT http://localhost:9080/JEE-App/api/persons/a786fdf4-e0b6-4360-98cb-dab711d57951/photo
-Content-Type: multipart/form-data; boundary=boundary
-
---boundary
-Content-Disposition: form-data; name="photo"; filename="WW.png'
-
-< JEE-App/src/main/resources/WW.png
---boundary--
-
-###
-
-# Update a person photo
-
-PATCH http://localhost:9080/JEE-App/api/persons/a786fdf4-e0b6-4360-98cb-dab711d57951/photo
-Content-Type: multipart/form-data; boundary=boundary
-
---boundary
-Content-Disposition: form-data; name="photo"; filename="JP.png'
-
-< JEE-App/src/main/resources/JP.png
---boundary--
+Authorization: Basic YWRtaW46YWRtaW4=
+# Authorization: Basic amFrdWJlazpzaWxuZWhhc2xv
 
 ###
 
 # Update a person
-
+// @no-cookie-jar
 PATCH http://localhost:9080/JEE-App/api/persons/a786fdf4-e0b6-4360-98cb-dab711d57951
+Authorization: Basic YWRtaW46YWRtaW4=
+#Authorization: Basic amFrdWJlazpzaWxuZWhhc2xv
 Content-Type: application/json
 
 {
@@ -70,20 +54,26 @@ Content-Type: application/json
 ###
 
 # Delete a person
-
-DELETE http://localhost:9080/JEE-App/api/persons/a786fdf4-e0b6-4360-98cb-dab711d57951
+// @no-cookie-jar
+DELETE http://localhost:9080/JEE-App/api/persons/00000000-0000-0000-0000-000000000003
+Authorization: Basic YWRtaW46YWRtaW4=
+# Authorization: Basic amFrdWJlazpzaWxuZWhhc2xv
 
 ########################################################################################################################
 
 # Get all categories
-
+// @no-cookie-jar
 GET http://localhost:9080/JEE-App/api/categories
-
+Authorization: Basic YWRtaW46YWRtaW4=
+#Authorization: Basic amFrdWJlazpzaWxuZWhhc2xv
 ###
 
 # Create a new category
 
+// @no-cookie-jar
 PUT http://localhost:9080/JEE-App/api/categories/a786fdf4-e0b6-4360-98cb-dab711d57953
+Authorization: Basic YWRtaW46YWRtaW4=
+#Authorization: Basic amFrdWJlazpzaWxuZWhhc2xv
 Content-Type: application/json
 
 {
@@ -96,13 +86,19 @@ Content-Type: application/json
 
 # Get a single category
 
+// @no-cookie-jar
 GET http://localhost:9080/JEE-App/api/categories/a786fdf4-e0b6-4360-98cb-dab711d57953
+Authorization: Basic YWRtaW46YWRtaW4=
+#Authorization: Basic amFrdWJlazpzaWxuZWhhc2xv
 
 ###
 
 # Update a category
 
+// @no-cookie-jar
 PATCH http://localhost:9080/JEE-App/api/categories/a786fdf4-e0b6-4360-98cb-dab711d57953
+Authorization: Basic YWRtaW46YWRtaW4=
+#Authorization: Basic amFrdWJlazpzaWxuZWhhc2xv
 Content-Type: application/json
 
 {
@@ -113,20 +109,28 @@ Content-Type: application/json
 
 # Delete a category
 
+// @no-cookie-jar
 DELETE http://localhost:9080/JEE-App/api/categories/a786fdf4-e0b6-4360-98cb-dab711d57953
-
+Authorization: Basic YWRtaW46YWRtaW4=
+#Authorization: Basic amFrdWJlazpzaWxuZWhhc2xv
 
 ########################################################################################################################
 
 # Get all pieces
 
+// @no-cookie-jar
 GET http://localhost:9080/JEE-App/api/pieces
+Authorization: Basic YWRtaW46YWRtaW4=
+#Authorization: Basic amFrdWJlazpzaWxuZWhhc2xv
 
 ###
 
 # Create a new piece
 
+// @no-cookie-jar
 PUT http://localhost:9080/JEE-App/api/categories/a786fdf4-e0b6-4360-98cb-dab711d57953/pieces/a786fdf4-e0b6-4360-98cb-dab711d57952
+Authorization: Basic YWRtaW46YWRtaW4=
+#Authorization: Basic amFrdWJlazpzaWxuZWhhc2xv
 Content-Type: application/json
 
 {
@@ -139,39 +143,39 @@ Content-Type: application/json
 
 # Get pieces of category
 
+// @no-cookie-jar
 GET http://localhost:9080/JEE-App/api/categories/a786fdf4-e0b6-4360-98cb-dab711d57953/pieces
+Authorization: Basic YWRtaW46YWRtaW4=
+#Authorization: Basic amFrdWJlazpzaWxuZWhhc2xv
 
 ###
 
 # Get a single piece
 
+// @no-cookie-jar
 GET http://localhost:9080/JEE-App/api/pieces/a786fdf4-e0b6-4360-98cb-dab711d57952
+Authorization: Basic YWRtaW46YWRtaW4=
+#Authorization: Basic amFrdWJlazpzaWxuZWhhc2xv
 
 ###
 
 # Update a piece
 
+// @no-cookie-jar
 PATCH http://localhost:9080/JEE-App/api/categories/a786fdf4-e0b6-4360-98cb-dab711d57953/pieces/a786fdf4-e0b6-4360-98cb-dab711d57952
+Authorization: Basic YWRtaW46YWRtaW4=
+#Authorization: Basic amFrdWJlazpzaWxuZWhhc2xv
 Content-Type: application/json
 
 {
-  "resellPrice": 12.73
+  "resellPrice": 12.37
 }
-
-###
-
-# Assign a person to a piece
-POST http://localhost:9080/JEE-App/api/pieces/a786fdf4-e0b6-4360-98cb-dab711d57952/persons/a786fdf4-e0b6-4360-98cb-dab711d57951
-
-###
-
-# Assign a category to a piece
-
-POST http://localhost:9080/JEE-App/api/pieces/a786fdf4-e0b6-4360-98cb-dab711d57952/categories/a786fdf4-e0b6-4360-98cb-dab711d57953
-
 
 ###
 
 # Delete a piece
 
-DELETE http://localhost:9080/JEE-App/api/categories/679ceb7b-7d62-49d0-94b1-9e63fa9b1a55/pieces/94aeb2c4-2fef-4b86-9e74-bf812090b3a8
+// @no-cookie-jar
+DELETE http://localhost:9080/JEE-App/api/categories/a786fdf4-e0b6-4360-98cb-dab711d57953/pieces/a786fdf4-e0b6-4360-98cb-dab711d57952
+Authorization: Basic YWRtaW46YWRtaW4=
+#Authorization: Basic amFrdWJlazpzaWxuZWhhc2xv

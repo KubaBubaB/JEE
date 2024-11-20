@@ -3,7 +3,6 @@ package ekstra.jest.JEE.interfaces;
 import ekstra.jest.JEE.businessClasses.person.Person;
 
 import java.util.HashMap;
-import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -21,4 +20,8 @@ public interface PersonRepository extends Repository<UUID, Person> {
 
     @Override
     public void update(UUID key, Person value);
+
+    public Optional<Person> getByLogin(String login);
+
+    public boolean contains(UUID key, String login);
 }

@@ -1,5 +1,6 @@
 package ekstra.jest.JEE.interfaces;
 
+import ekstra.jest.JEE.businessClasses.person.Person;
 import ekstra.jest.JEE.businessClasses.pieceOfClothing.PieceOfClothing;
 
 import java.util.HashMap;
@@ -20,4 +21,6 @@ public interface PieceOfClothingRepository extends Repository<UUID, PieceOfCloth
 
     @Override
     public void update(UUID key, PieceOfClothing value);
+
+    public HashMap<UUID, PieceOfClothing> getAllByPerson(Person person);
 }

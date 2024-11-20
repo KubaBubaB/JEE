@@ -21,6 +21,12 @@ import java.util.UUID;
 public class Person implements Serializable {
     @Id
     private UUID id;
+
+    private String login;
+
+    @ToString.Exclude
+    private String password;
+
     private String firstName;
     private Double moneyInBankAcc;
     private String lastName;
@@ -32,4 +38,9 @@ public class Person implements Serializable {
     @EqualsAndHashCode.Exclude
     @Transient                  // <--- tmp workaround
     private Path photo;
+
+    @CollectionTable(name = "persons__roles", joinColumns = @JoinColumn(name = "id"))
+    @Column(name = "role")
+    @ElementCollection(fetch = FetchType.EAGER)
+    private List<String> roles;
 }

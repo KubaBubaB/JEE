@@ -5,48 +5,88 @@ import ekstra.jest.JEE.Requests.PutPersonRequest;
 import ekstra.jest.JEE.Requests.UpdatePersonRequest;
 import ekstra.jest.JEE.Responses.GetPersonResponse;
 import ekstra.jest.JEE.Responses.GetPersonsResponse;
-import ekstra.jest.JEE.exceptions.BadRequestException;
-import ekstra.jest.JEE.exceptions.NotFoundException;
+import ekstra.jest.JEE.businessClasses.person.PersonRoles;
 import ekstra.jest.JEE.interfaces.IPersonController;
 import ekstra.jest.JEE.service.PersonService;
-import jakarta.enterprise.context.RequestScoped;
-import jakarta.inject.Inject;
+import jakarta.annotation.security.PermitAll;
+import jakarta.annotation.security.RolesAllowed;
+import jakarta.ejb.EJB;
+import jakarta.ejb.EJBException;
+import jakarta.ws.rs.BadRequestException;
+import jakarta.ws.rs.NotFoundException;
+import jakarta.ws.rs.Path;
 
 import java.io.InputStream;
 import java.util.UUID;
 
-@RequestScoped
+@Path("")
+@RolesAllowed(PersonRoles.USER)
 public class PersonController implements IPersonController {
-    private final PersonService personService;
+    private PersonService personService;
 
-    @Inject
-    public PersonController(PersonService personService) {
+    @EJB
+    public void setService(PersonService personService) {
         this.personService = personService;
     }
 
     public GetPersonResponse getPerson(UUID personId) {
-        var person = personService.getPerson(personId).orElseThrow(() -> new NotFoundException("No person with this id"));
-        return PersonMapper.mapPersonToGetPersonResponse(person);
+        try{
+            var person = personService.getPerson(personId).orElseThrow(() -> new NotFoundException("No person with this id"));
+            return PersonMapper.mapPersonToGetPersonResponse(person);
+        }
+        catch(EJBException ex){
+            throw new BadRequestException("Wrong access level");
+        }
     }
 
     public GetPersonsResponse getAllPersons() {
-        return PersonMapper.mapPersonsToGetPersonsResponse(personService.getAllPersons());
+        try{
+            return PersonMapper.mapPersonsToGetPersonsResponse(personService.getAllPersons());
+        }
+        catch(EJBException ex){
+            throw new BadRequestException("Wrong access level");
+        }
     }
 
+    @PermitAll
     public void addPerson(UUID id, PutPersonRequest putPersonRequest) {
-        personService.getPerson(id).ifPresentOrElse(person -> {
-            throw new BadRequestException("Person with this id already exists");
-        }, () -> personService.savePerson(id, PersonMapper.mapPutPersonRequestToPerson(putPersonRequest, id)));
+        personService.savePerson(id, PersonMapper.mapPutPersonRequestToPerson(putPersonRequest, id));
     }
 
     public void updatePerson(UUID id, UpdatePersonRequest updatePersonRequest) {
-        var person = personService.getPerson(id).orElseThrow(() -> new NotFoundException("No person with this id"));
-        personService.updatePerson(person, updatePersonRequest);
+        try{
+            var person = personService.getPerson(id).orElseThrow(() -> new NotFoundException("No person with this id"));
+            personService.updatePerson(person, updatePersonRequest);
+        }
+        catch(EJBException ex){
+            throw new BadRequestException("Wrong access level");
+        }
     }
 
     public void removePerson(UUID id) {
-        personService.removePerson(id);
+        try{
+            personService.removePerson(id);
+        }
+        catch(EJBException ex){
+            throw new BadRequestException("Wrong access level");
+        }
     }
+
+    @PermitAll
+    public String login(String login, String password) {
+        if(personService.verify(login, password)){
+            return personService.generateHash(password);
+        }
+        throw new BadRequestException("Invalid login or password");
+    }
+
+
+
+                                    /*               DEPRECETED                   */
+                                     /*              \ /\ /\ /                   */
+                                      /*              v  v  v                   */
+
+
 
     public void addPersonPhoto(UUID id, InputStream photo) {
         var person = personService.getPerson(id).orElseThrow(() -> new NotFoundException("No person with this id"));

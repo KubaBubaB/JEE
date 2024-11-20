@@ -22,7 +22,7 @@ public class PieceOfClothing implements Serializable {
     private UUID id;
     @EqualsAndHashCode.Exclude
     @ToString.Exclude
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     private Person owner;
     private Double resellPrice;
     private ClothingSize size;

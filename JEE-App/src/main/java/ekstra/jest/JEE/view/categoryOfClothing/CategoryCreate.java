@@ -3,6 +3,7 @@ package ekstra.jest.JEE.view.categoryOfClothing;
 import ekstra.jest.JEE.Mappers.EntitiesToModelsMapper;
 import ekstra.jest.JEE.model.categoryOfClothing.CreateCategoryModel;
 import ekstra.jest.JEE.service.CategoryOfClothingService;
+import jakarta.ejb.EJB;
 import jakarta.enterprise.context.RequestScoped;
 import jakarta.inject.Inject;
 import jakarta.inject.Named;
@@ -19,16 +20,20 @@ import java.util.UUID;
 @RequestScoped
 public class CategoryCreate implements Serializable {
 
-    private final CategoryOfClothingService categoryOfClothingService;
+    private CategoryOfClothingService categoryOfClothingService;
     
     private final EntitiesToModelsMapper mapper;
     
     @Inject
     public CategoryCreate(CategoryOfClothingService categoryOfClothingService, EntitiesToModelsMapper mapper) {
-        this.categoryOfClothingService = categoryOfClothingService;
+        //this.categoryOfClothingService = categoryOfClothingService;
         this.mapper = mapper;
     }
 
+    @EJB
+    public void setCategoryOfClothingService(CategoryOfClothingService categoryOfClothingService) {
+        this.categoryOfClothingService = categoryOfClothingService;
+    }
 
     @Getter
     @Setter

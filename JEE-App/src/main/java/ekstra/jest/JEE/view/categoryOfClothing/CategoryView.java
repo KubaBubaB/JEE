@@ -4,6 +4,7 @@ import ekstra.jest.JEE.Mappers.EntitiesToModelsMapper;
 import ekstra.jest.JEE.model.pieceOfClothing.PiecesOfClothingModel;
 import ekstra.jest.JEE.service.CategoryOfClothingService;
 import ekstra.jest.JEE.service.PieceOfClothingService;
+import jakarta.ejb.EJB;
 import jakarta.faces.view.ViewScoped;
 import jakarta.inject.Inject;
 import jakarta.inject.Named;
@@ -19,9 +20,9 @@ public class CategoryView implements Serializable {
 
     private final EntitiesToModelsMapper mapper;
 
-    private final CategoryOfClothingService service;
+    private CategoryOfClothingService service;
 
-    private final PieceOfClothingService pieceService;
+    private PieceOfClothingService pieceService;
 
     @Setter
     @Getter
@@ -35,7 +36,17 @@ public class CategoryView implements Serializable {
     @Inject
     public CategoryView(EntitiesToModelsMapper mapper, CategoryOfClothingService service, PieceOfClothingService pieceService) {
         this.mapper = mapper;
+        //this.service = service;
+        //this.pieceService = pieceService;
+    }
+
+    @EJB
+    public void setService(CategoryOfClothingService service) {
         this.service = service;
+    }
+
+    @EJB
+    public void setPieceService(PieceOfClothingService pieceService) {
         this.pieceService = pieceService;
     }
 

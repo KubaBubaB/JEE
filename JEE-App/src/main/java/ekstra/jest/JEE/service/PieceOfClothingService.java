@@ -3,34 +3,56 @@ package ekstra.jest.JEE.service;
 import ekstra.jest.JEE.Requests.UpdatePieceOfClothingRequest;
 import ekstra.jest.JEE.businessClasses.categoryOfClothing.CategoryOfClothing;
 import ekstra.jest.JEE.businessClasses.person.Person;
+import ekstra.jest.JEE.businessClasses.person.PersonRoles;
 import ekstra.jest.JEE.businessClasses.pieceOfClothing.PieceOfClothing;
 import ekstra.jest.JEE.interfaces.CategoryOfClothingRepository;
 import ekstra.jest.JEE.interfaces.PersonRepository;
 import ekstra.jest.JEE.interfaces.PieceOfClothingRepository;
-import jakarta.enterprise.context.RequestScoped;
+import jakarta.annotation.security.RolesAllowed;
+import jakarta.ejb.LocalBean;
+import jakarta.ejb.Stateless;
 import jakarta.inject.Inject;
-import jakarta.transaction.Transactional;
+import jakarta.security.enterprise.SecurityContext;
 import lombok.NoArgsConstructor;
 
 import java.util.HashMap;
 import java.util.Optional;
 import java.util.UUID;
 
-@RequestScoped
+@LocalBean
+@Stateless
 @NoArgsConstructor(force = true)
 public class PieceOfClothingService {
     private final PieceOfClothingRepository pieceOfClothingRepository;
     private final PersonRepository personRepository;
     private final CategoryOfClothingRepository categoryOfClothingRepository;
+    private final SecurityContext securityContext;
+
 
     @Inject
-    public PieceOfClothingService(PieceOfClothingRepository pieceOfClothingRepository, PersonRepository personRepository, CategoryOfClothingRepository categoryOfClothingRepository) {
+    public PieceOfClothingService(PieceOfClothingRepository pieceOfClothingRepository,
+                                  PersonRepository personRepository,
+                                  CategoryOfClothingRepository categoryOfClothingRepository,
+                                  @SuppressWarnings("CdiInjectionPointsInspection") SecurityContext securityContext) {
         this.pieceOfClothingRepository = pieceOfClothingRepository;
         this.personRepository = personRepository;
         this.categoryOfClothingRepository = categoryOfClothingRepository;
+        this.securityContext = securityContext;
     }
 
+    @RolesAllowed(PersonRoles.USER)
     public HashMap<UUID, PieceOfClothing> getAllPieceOfClothingInCategory(CategoryOfClothing category) {
+        if(!securityContext.isCallerInRole(PersonRoles.ADMIN)){
+            Person person = personRepository.getByLogin(securityContext.getCallerPrincipal().getName()).get();
+            var response1 = pieceOfClothingRepository.getAllByPerson(person);
+            var toret1 = new HashMap<UUID, PieceOfClothing>();
+            response1.forEach((key, value) -> {
+                if(value.getCategoryOfClothing().getId().equals(category.getId())){
+                    toret1.put(key, value);
+                }
+            });
+            return toret1;
+        }
         var response = getAllPieceOfClothing();
         var toret = new HashMap<UUID, PieceOfClothing>();
         response.forEach((key, value) -> {
@@ -41,8 +63,13 @@ public class PieceOfClothingService {
         return toret;
     }
 
-    @Transactional
+
+    @RolesAllowed(PersonRoles.USER)
     public void savePieceOfClothing(UUID key, PieceOfClothing value){
+        if(!securityContext.isCallerInRole(PersonRoles.ADMIN)){
+            Person person = personRepository.getByLogin(securityContext.getCallerPrincipal().getName()).get();
+            value.setOwner(person);
+        }
         pieceOfClothingRepository.save(key, value);
     }
 
@@ -61,15 +88,25 @@ public class PieceOfClothingService {
         });
     }
 
+    @RolesAllowed(PersonRoles.USER)
     public Optional<PieceOfClothing> getPieceOfClothing(UUID key){
+        if(!securityContext.isCallerInRole(PersonRoles.ADMIN)){
+            Person person = personRepository.getByLogin(securityContext.getCallerPrincipal().getName()).get();
+            return Optional.ofNullable(pieceOfClothingRepository.getAllByPerson(person).get(key));
+        }
         return pieceOfClothingRepository.get(key);
     }
 
+    @RolesAllowed(PersonRoles.USER)
     public HashMap<UUID, PieceOfClothing> getAllPieceOfClothing() {
+        if(!securityContext.isCallerInRole(PersonRoles.ADMIN)){
+            Person person = personRepository.getByLogin(securityContext.getCallerPrincipal().getName()).get();
+            return pieceOfClothingRepository.getAllByPerson(person);
+        }
         return pieceOfClothingRepository.getAll();
     }
 
-    @Transactional
+    @RolesAllowed(PersonRoles.USER)
     public void removePieceOfClothing(UUID key) {
         // Not needed with JPA
         //Optional<Person> owner = personRepository.getAll().values().stream()
@@ -91,7 +128,12 @@ public class PieceOfClothingService {
         //    categoryOfClothing.getClothingBelongingToType().removeIf(pieceOfClothing -> pieceOfClothing.getId().equals(key));
         //    categoryOfClothingRepository.update(categoryOfClothing.getId(), categoryOfClothing);
         //});
-
+        if(!securityContext.isCallerInRole(PersonRoles.ADMIN)){
+            Person person = personRepository.getByLogin(securityContext.getCallerPrincipal().getName()).get();
+            if(!person.getOwnedClothing().contains(pieceOfClothingRepository.get(key).get())){
+                return;
+            }
+        }
         pieceOfClothingRepository.remove(key);
     }
 
@@ -109,8 +151,14 @@ public class PieceOfClothingService {
         categoryOfClothingRepository.update(categoryOfClothing.getId(), categoryOfClothing);
     }
 
-    @Transactional
+    @RolesAllowed(PersonRoles.USER)
     public void updatePieceOfClothing(PieceOfClothing pieceOfClothing, UpdatePieceOfClothingRequest request){
+        if(!securityContext.isCallerInRole(PersonRoles.ADMIN)){
+            Person person = personRepository.getByLogin(securityContext.getCallerPrincipal().getName()).get();
+            if(!person.getOwnedClothing().contains(pieceOfClothing)){
+                return;
+            }
+        }
         pieceOfClothing.setResellPrice(request.getResellPrice());
         pieceOfClothingRepository.update(pieceOfClothing.getId(), pieceOfClothing);
     }
