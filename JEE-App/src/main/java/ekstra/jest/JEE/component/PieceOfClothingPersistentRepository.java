@@ -1,5 +1,6 @@
 package ekstra.jest.JEE.component;
 
+import ekstra.jest.JEE.businessClasses.categoryOfClothing.CategoryOfClothing;
 import ekstra.jest.JEE.businessClasses.pieceOfClothing.PieceOfClothing;
 import ekstra.jest.JEE.interfaces.PieceOfClothingRepository;
 import jakarta.enterprise.context.RequestScoped;
@@ -33,8 +34,8 @@ public class PieceOfClothingPersistentRepository implements PieceOfClothingRepos
 
     @Override
     public void save(UUID key, PieceOfClothing value) {
-        //em.refresh(value.getCategoryOfClothing());
         em.persist(value);
+        em.refresh(em.find(CategoryOfClothing.class, value.getCategoryOfClothing().getId()));
     }
 
     @Override

@@ -32,8 +32,13 @@ public class PieceOfClothingService {
 
     public HashMap<UUID, PieceOfClothing> getAllPieceOfClothingInCategory(CategoryOfClothing category) {
         var response = getAllPieceOfClothing();
-        response.entrySet().removeIf(entry -> !entry.getValue().getCategoryOfClothing().getId().equals(category.getId()));
-        return response;
+        var toret = new HashMap<UUID, PieceOfClothing>();
+        response.forEach((key, value) -> {
+            if(value.getCategoryOfClothing().getId().equals(category.getId())){
+                toret.put(key, value);
+            }
+        });
+        return toret;
     }
 
     @Transactional
