@@ -11,6 +11,7 @@
     </f:metadata>
 
     <ui:define name="content">
+        <f:loadBundle var="msg" basename="ekstra.jest.JEE.view.i18n.messages"/>
         <article>
             <header><h2><h:outputText value="#{pieceOfClothingView.piece.name}"/></h2></header>
             <div class="container">
@@ -19,7 +20,7 @@
 
                         <div class="row mb-2">
                             <div class="col-6">
-                                Owners name
+                                #{msg.owner}
                             </div>
                             <div class="col-6">
                                 <h:outputText value="#{pieceOfClothingView.piece.ownersName}"/>
@@ -28,7 +29,7 @@
 
                         <div class="row mb-2">
                             <div class="col-6">
-                                Size
+                               #{msg.size}
                             </div>
                             <div class="col-6">
                                 <h:outputText value="#{pieceOfClothingView.piece.size}"/>
@@ -37,7 +38,7 @@
 
                         <div class="row mb-2">
                             <div class="col-6">
-                                Resell price
+                                #{msg.resell}
                             </div>
                             <div class="col-6">
                                 <h:outputText value="#{pieceOfClothingView.piece.resellPrice}"/>
@@ -46,7 +47,7 @@
 
                         <div class="row mb-2">
                             <div class="col-6">
-                                Name of category
+                                #{msg.category}
                             </div>
                             <div class="col-6">
                                 <h:outputText value="#{pieceOfClothingView.piece.categoryName}"/>

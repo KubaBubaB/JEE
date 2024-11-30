@@ -37,7 +37,7 @@ public class PieceOfClothingCreate {
         categories = categoryOfClothingService.getAllCategoryOfClothing().values().stream()
                 .map(CategoryOfClothing::getName)
                 .toList();
-        owners = personService.getAllPersons().values().stream()
+        owners = personService.getAllPersonOnCallerPrincipal().values().stream()
                 .map(person -> person.getFirstName() + " " + person.getLastName())
                 .toList();
     }
@@ -74,7 +74,7 @@ public class PieceOfClothingCreate {
         categories = categoryOfClothingService.getAllCategoryOfClothing().values().stream()
                 .map(CategoryOfClothing::getName)
                 .toList();
-        owners = personService.getAllPersons().values().stream()
+        owners = personService.getAllPersonOnCallerPrincipal().values().stream()
                 .map(person -> person.getFirstName() + " " + person.getLastName())
                 .toList();
     }

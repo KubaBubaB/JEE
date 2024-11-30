@@ -23,4 +23,6 @@ public interface PieceOfClothingRepository extends Repository<UUID, PieceOfCloth
     public void update(UUID key, PieceOfClothing value);
 
     public HashMap<UUID, PieceOfClothing> getAllByPerson(Person person);
+
+    Optional<PieceOfClothing> getByPersonAndId(Person person, UUID key);
 }

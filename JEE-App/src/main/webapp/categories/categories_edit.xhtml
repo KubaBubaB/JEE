@@ -11,8 +11,9 @@
     </f:metadata>
 
     <ui:define name="content">
+        <f:loadBundle var="msg" basename="ekstra.jest.JEE.view.i18n.messages"/>
         <article>
-            <header><h2>Edit category #{categoryEdit.category.name}</h2></header>
+            <header><h2>#{msg.catEdit} #{categoryEdit.category.name}</h2></header>
             <h:form styleClass="container" onreset="onReset()" enctype="multipart/form-data">
 
                 <div class="row">
@@ -34,7 +35,7 @@
 
                 <div class="row">
                     <div class="col-2 p-2 text-center">
-                        <h:commandButton styleClass="btn btn-primary" value="Update"
+                        <h:commandButton styleClass="btn btn-primary" value="#{msg.update}"
                                          action="#{categoryEdit.saveAction()}"/>
                     </div>
                 </div>

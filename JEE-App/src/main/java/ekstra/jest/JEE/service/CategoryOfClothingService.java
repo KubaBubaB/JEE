@@ -6,7 +6,6 @@ import ekstra.jest.JEE.businessClasses.person.PersonRoles;
 import ekstra.jest.JEE.businessClasses.pieceOfClothing.PieceOfClothing;
 import ekstra.jest.JEE.interfaces.CategoryOfClothingRepository;
 import ekstra.jest.JEE.interfaces.PieceOfClothingRepository;
-import jakarta.annotation.security.RolesAllowed;
 import jakarta.ejb.LocalBean;
 import jakarta.ejb.Stateless;
 import jakarta.inject.Inject;
@@ -34,33 +33,38 @@ public class CategoryOfClothingService {
         this.securityContext = securityContext;
     }
 
-    @RolesAllowed(PersonRoles.ADMIN)
+    //@RolesAllowed(PersonRoles.ADMIN)
     public void saveCategoryOfClothing(UUID key, CategoryOfClothing value){
+        checkUserRole();
         categoryOfClothingRepository.save(key, value);
     }
 
-    @RolesAllowed(PersonRoles.USER)
+    //@RolesAllowed(PersonRoles.USER)
     public Optional<CategoryOfClothing> getCategoryOfClothing(UUID key){
+        checkUserRole();
         return categoryOfClothingRepository.get(key);
     }
 
-    @RolesAllowed(PersonRoles.USER)
+    //@RolesAllowed(PersonRoles.USER)
     public Optional<CategoryOfClothing> getCategoryOfClothingByName(String name){
+        checkUserRole();
         return categoryOfClothingRepository.getAll().values().stream().filter(category -> category.getName().equals(name)).findFirst();
     }
 
-    @RolesAllowed(PersonRoles.USER)
+    //@RolesAllowed(PersonRoles.USER)
     public HashMap<UUID, CategoryOfClothing> getAllCategoryOfClothing() {
+        checkUserRole();
         return categoryOfClothingRepository.getAll();
     }
 
-    @RolesAllowed(PersonRoles.ADMIN)
+    //@RolesAllowed(PersonRoles.ADMIN)
     public void updateCategoryOfClothing(CategoryOfClothing category, UpdateCategoryOfClothingRequest request){
+        checkUserRole();
         category.setIsTrendy(request.getIsTrendy());
         categoryOfClothingRepository.update(category.getId(), category);
     }
 
-    @RolesAllowed(PersonRoles.ADMIN)
+    //@RolesAllowed(PersonRoles.ADMIN)
     public void removeCategoryOfClothing(UUID key) {
         // Not needed with JPA
         //categoryOfClothingRepository.get(key).ifPresent(category -> {
@@ -71,6 +75,7 @@ public class CategoryOfClothingService {
         //        });
         //    });
         //});
+        checkUserRole();
         categoryOfClothingRepository.remove(key);
     }
 
@@ -79,5 +84,11 @@ public class CategoryOfClothingService {
             piece.setCategoryOfClothing(category);
             pieceOfClothingRepository.update(piece.getId(), piece);
         });
+    }
+
+    private void checkUserRole() throws SecurityException {
+        if (!securityContext.isCallerInRole(PersonRoles.USER)) {
+            throw new SecurityException("Caller not authorized.");
+        }
     }
 }

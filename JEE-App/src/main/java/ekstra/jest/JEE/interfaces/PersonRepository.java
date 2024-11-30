@@ -24,4 +24,6 @@ public interface PersonRepository extends Repository<UUID, Person> {
     public Optional<Person> getByLogin(String login);
 
     public boolean contains(UUID key, String login);
+
+
 }

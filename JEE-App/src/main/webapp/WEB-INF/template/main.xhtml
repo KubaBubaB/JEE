@@ -23,20 +23,35 @@
     <h:body>
         <div class="container">
             <header class="mb-4 mt-4">
-                <h:graphicImage library="default" value="/resources/logo.png" styleClass="img-fluid" alt="logo"/>
-                <h1>Ciucholandexpol</h1>
+                <h:graphicImage library="default" value="#{messages.sciezka}" styleClass="img-fluid" alt="logo"/>
+                <h1>#{messages.firma}</h1>
+                <h:form styleClass="container d-flex  align-items-center justify-content-end"
+                        rendered="#{facesContext.externalContext.userPrincipal != null}">
+                    #{messages.logged} <h:outputText value="#{facesContext.externalContext.userPrincipal.name}"/>
+                    <h:commandButton styleClass="btn btn-link" value="#{messages.logout}"
+                                     action="#{personLogout.logoutAction()}"/>
+                </h:form>
             </header>
 
             <nav class="navbar navbar-expand-lg navbar-light bg-light sticky-top">
                 <div class="container-fluid">
                     <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                         <li class="nav-item">
-                            <h:link styleClass="nav-link" outcome="/index.xhtml">Home</h:link>
+                            <h:link styleClass="nav-link" outcome="/index.xhtml">#{messages.home}</h:link>
                         </li>
-                        <li class="nav-item">
-                            <h:link styleClass="nav-link"
-                                    outcome="/categories/categories_list.xhtml">Categories</h:link>
-                        </li>
+                        <h:panelGroup rendered="#{facesContext.externalContext.userPrincipal == null}">
+                            <li class="nav-item">
+                                <h:link styleClass="nav-link"
+                                        outcome="/authentication/custom/login.xhtml">#{messages.loginm}</h:link>
+                            </li>
+                        </h:panelGroup>
+                        <h:panelGroup rendered="#{facesContext.externalContext.isUserInRole('user')}">
+                            <li class="nav-item">
+                                <h:link styleClass="nav-link"
+                                        outcome="/categories/categories_list.xhtml">#{messages.categories}</h:link>
+                            </li>
+                        </h:panelGroup>
+
                     </ul>
                 </div>
             </nav>
@@ -47,7 +62,7 @@
 
             <footer class="text-center text-lg-start bg-light text-muted p-2">
                 <div class="text-center">
-                    Copyright &#169; BRAK
+                    #{messages.copyright} &#169; #{messages.nomes}
                 </div>
             </footer>
         </div>

@@ -6,6 +6,7 @@ import ekstra.jest.JEE.businessClasses.pieceOfClothing.PieceOfClothing;
 import ekstra.jest.JEE.interfaces.PieceOfClothingRepository;
 import jakarta.enterprise.context.Dependent;
 import jakarta.persistence.EntityManager;
+import jakarta.persistence.NoResultException;
 import jakarta.persistence.PersistenceContext;
 
 import java.util.HashMap;
@@ -58,5 +59,17 @@ public class PieceOfClothingPersistentRepository implements PieceOfClothingRepos
                 .setParameter("person", person)
                 .getResultList().forEach(pieceOfClothing -> map.put(pieceOfClothing.getId(), pieceOfClothing));
         return map;
+    }
+
+    @Override
+    public Optional<PieceOfClothing> getByPersonAndId(Person person, UUID key) {
+        try {
+            return Optional.of(em.createQuery("select c from PieceOfClothing c where c.id = :id and c.owner.id = :owner", PieceOfClothing.class)
+                    .setParameter("owner", person.getId())
+                    .setParameter("id", key)
+                    .getSingleResult());
+        } catch (NoResultException ex) {
+            return Optional.empty();
+        }
     }
 }

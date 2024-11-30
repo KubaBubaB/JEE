@@ -8,7 +8,6 @@ import ekstra.jest.JEE.businessClasses.pieceOfClothing.PieceOfClothing;
 import ekstra.jest.JEE.interfaces.CategoryOfClothingRepository;
 import ekstra.jest.JEE.interfaces.PersonRepository;
 import ekstra.jest.JEE.interfaces.PieceOfClothingRepository;
-import jakarta.annotation.security.RolesAllowed;
 import jakarta.ejb.LocalBean;
 import jakarta.ejb.Stateless;
 import jakarta.inject.Inject;
@@ -40,8 +39,9 @@ public class PieceOfClothingService {
         this.securityContext = securityContext;
     }
 
-    @RolesAllowed(PersonRoles.USER)
+    //@RolesAllowed(PersonRoles.USER)
     public HashMap<UUID, PieceOfClothing> getAllPieceOfClothingInCategory(CategoryOfClothing category) {
+        checkUserRole();
         if(!securityContext.isCallerInRole(PersonRoles.ADMIN)){
             Person person = personRepository.getByLogin(securityContext.getCallerPrincipal().getName()).get();
             var response1 = pieceOfClothingRepository.getAllByPerson(person);
@@ -64,8 +64,9 @@ public class PieceOfClothingService {
     }
 
 
-    @RolesAllowed(PersonRoles.USER)
+    //@RolesAllowed(PersonRoles.USER)
     public void savePieceOfClothing(UUID key, PieceOfClothing value){
+        checkUserRole();
         if(!securityContext.isCallerInRole(PersonRoles.ADMIN)){
             Person person = personRepository.getByLogin(securityContext.getCallerPrincipal().getName()).get();
             value.setOwner(person);
@@ -88,8 +89,9 @@ public class PieceOfClothingService {
         });
     }
 
-    @RolesAllowed(PersonRoles.USER)
+    //@RolesAllowed(PersonRoles.USER)
     public Optional<PieceOfClothing> getPieceOfClothing(UUID key){
+        checkUserRole();
         if(!securityContext.isCallerInRole(PersonRoles.ADMIN)){
             Person person = personRepository.getByLogin(securityContext.getCallerPrincipal().getName()).get();
             return Optional.ofNullable(pieceOfClothingRepository.getAllByPerson(person).get(key));
@@ -97,8 +99,9 @@ public class PieceOfClothingService {
         return pieceOfClothingRepository.get(key);
     }
 
-    @RolesAllowed(PersonRoles.USER)
+    //@RolesAllowed(PersonRoles.USER)
     public HashMap<UUID, PieceOfClothing> getAllPieceOfClothing() {
+        checkUserRole();
         if(!securityContext.isCallerInRole(PersonRoles.ADMIN)){
             Person person = personRepository.getByLogin(securityContext.getCallerPrincipal().getName()).get();
             return pieceOfClothingRepository.getAllByPerson(person);
@@ -106,7 +109,27 @@ public class PieceOfClothingService {
         return pieceOfClothingRepository.getAll();
     }
 
-    @RolesAllowed(PersonRoles.USER)
+    public HashMap<UUID, PieceOfClothing> getAllPieceOfClothingByCallerPrincipal(){
+        checkUserRole();
+        if (securityContext.isCallerInRole(PersonRoles.ADMIN)) {
+            return pieceOfClothingRepository.getAll();
+        }
+        Person person = personRepository.getByLogin(securityContext.getCallerPrincipal().getName())
+                .orElseThrow(IllegalStateException::new);
+        return pieceOfClothingRepository.getAllByPerson(person);
+    }
+
+    public Optional<PieceOfClothing> getPieceOfClothingByCallerPrincipal(UUID key){
+        checkUserRole();
+        if (securityContext.isCallerInRole(PersonRoles.ADMIN)) {
+            return pieceOfClothingRepository.get(key);
+        }
+        Person person = personRepository.getByLogin(securityContext.getCallerPrincipal().getName())
+                .orElseThrow(IllegalStateException::new);
+        return pieceOfClothingRepository.getByPersonAndId(person, key);
+    }
+
+    //@RolesAllowed(PersonRoles.USER)
     public void removePieceOfClothing(UUID key) {
         // Not needed with JPA
         //Optional<Person> owner = personRepository.getAll().values().stream()
@@ -128,6 +151,7 @@ public class PieceOfClothingService {
         //    categoryOfClothing.getClothingBelongingToType().removeIf(pieceOfClothing -> pieceOfClothing.getId().equals(key));
         //    categoryOfClothingRepository.update(categoryOfClothing.getId(), categoryOfClothing);
         //});
+        checkUserRole();
         if(!securityContext.isCallerInRole(PersonRoles.ADMIN)){
             Person person = personRepository.getByLogin(securityContext.getCallerPrincipal().getName()).get();
             if(!person.getOwnedClothing().contains(pieceOfClothingRepository.get(key).get())){
@@ -151,8 +175,9 @@ public class PieceOfClothingService {
         categoryOfClothingRepository.update(categoryOfClothing.getId(), categoryOfClothing);
     }
 
-    @RolesAllowed(PersonRoles.USER)
+    //@RolesAllowed(PersonRoles.USER)
     public void updatePieceOfClothing(PieceOfClothing pieceOfClothing, UpdatePieceOfClothingRequest request){
+        checkUserRole();
         if(!securityContext.isCallerInRole(PersonRoles.ADMIN)){
             Person person = personRepository.getByLogin(securityContext.getCallerPrincipal().getName()).get();
             if(!person.getOwnedClothing().contains(pieceOfClothing)){
@@ -161,5 +186,23 @@ public class PieceOfClothingService {
         }
         pieceOfClothing.setResellPrice(request.getResellPrice());
         pieceOfClothingRepository.update(pieceOfClothing.getId(), pieceOfClothing);
+    }
+
+    private void checkUserRole() throws SecurityException {
+        if (!securityContext.isCallerInRole(PersonRoles.USER)) {
+            throw new SecurityException("Caller not authorized.");
+        }
+    }
+
+    private void checkAdminRoleOrOwner(Optional<PieceOfClothing> piece) throws SecurityException {
+        if (securityContext.isCallerInRole(PersonRoles.ADMIN)) {
+            return;
+        }
+        if (securityContext.isCallerInRole(PersonRoles.USER)
+                && piece.isPresent()
+                && piece.get().getOwner().getLogin().equals(securityContext.getCallerPrincipal().getName())) {
+            return;
+        }
+        throw new SecurityException("Caller not authorized.");
     }
 }

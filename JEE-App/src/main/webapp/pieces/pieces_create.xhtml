@@ -10,15 +10,16 @@
     </f:metadata>
 
     <ui:define name="content">
+        <f:loadBundle var="msg" basename="ekstra.jest.JEE.view.i18n.messages"/>
         <article>
-            <header><h2>Create piece of clothing</h2></header>
+            <header><h2>#{msg.createNewPiece}</h2></header>
             <h:form styleClass="container" onreset="onReset()" enctype="multipart/form-data">
 
                 <div class="row">
                     <div class="col-4 p-2">
                         <div class="form-outline">
                             <h:inputText id="name" value="#{pieceOfClothingCreate.piece.name}" styleClass="form-control"/>
-                            <h:outputLabel for="name" value="Name:" styleClass="form-label"/>
+                            <h:outputLabel for="name" value="#{msg.name}" styleClass="form-label"/>
                         </div>
                     </div>
                 </div>
@@ -27,7 +28,7 @@
                     <div class="col-4 p-2">
                         <div class="form-outline">
                             <h:inputText id="resellPrice" value="#{pieceOfClothingCreate.piece.resellPrice}" styleClass="form-control"/>
-                            <h:outputLabel for="resellPrice" value="Resell price:" styleClass="form-label"/>
+                            <h:outputLabel for="resellPrice" value="#{msg.resell}" styleClass="form-label"/>
                         </div>
                     </div>
                 </div>
@@ -35,7 +36,7 @@
                 <div class="row">
                     <div class="col-4 p-2">
                         <fieldset>
-                            <legend class="form-label fs-6">Size: </legend>
+                            <legend class="form-label fs-6">${msg.size} </legend>
                             <ui:repeat value="#{pieceOfClothingCreate.sizes}" var="size">
                                 <div class="form-check">
                                     <h:selectOneRadio id="radioId" group="size"
@@ -53,7 +54,7 @@
                 <div class="row">
                     <div class="col-4 p-2">
                         <fieldset>
-                            <legend class="form-label fs-6">Category of clothing: </legend>
+                            <legend class="form-label fs-6">#{msg.category} </legend>
                             <ui:repeat value="#{pieceOfClothingCreate.categories}" var="category">
                                 <div class="form-check">
                                     <h:selectOneRadio id="radioId1" group="category"
@@ -71,7 +72,7 @@
                 <div class="row">
                     <div class="col-4 p-2">
                         <fieldset>
-                            <legend class="form-label fs-6">Owner: </legend>
+                            <legend class="form-label fs-6">#{msg.owner} </legend>
                             <ui:repeat value="#{pieceOfClothingCreate.owners}" var="owner">
                                 <div class="form-check">
                                     <h:selectOneRadio id="radioId2" group="owner"
@@ -88,11 +89,11 @@
 
                 <div class="row">
                     <div class="col-2 p-2 text-center">
-                        <h:commandButton styleClass="btn btn-primary" value="Create"
+                        <h:commandButton styleClass="btn btn-primary" value="#{msg.create}"
                                          action="#{pieceOfClothingCreate.saveAction()}"/>
                     </div>
                     <div class="col-2 p-2 text-center">
-                        <h:commandButton styleClass="btn btn-secondary" value="Cancel"
+                        <h:commandButton styleClass="btn btn-secondary" value="#{msg.cancel}"
                                          action="#{pieceOfClothingCreate.cancelAction()}"/>
                     </div>
                 </div>

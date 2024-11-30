@@ -60,7 +60,7 @@ public class PersonService {
         return personRepository.get(key);
     }
 
-    @RolesAllowed(PersonRoles.ADMIN)
+    @RolesAllowed(PersonRoles.USER)
     public Optional<Person> getPersonByFirstNameAndLastName(String name) {
         String[] names = name.split(" ");
         return personRepository.getAll().values().stream()
@@ -73,6 +73,17 @@ public class PersonService {
         return personRepository.getAll();
     }
 
+    public HashMap<UUID, Person> getAllPersonOnCallerPrincipal() {
+        checkUserRole();
+        if (securityContext.isCallerInRole(PersonRoles.ADMIN)) {
+            return personRepository.getAll();
+        }
+        Person person = personRepository.getByLogin(securityContext.getCallerPrincipal().getName())
+                .orElseThrow(IllegalStateException::new);
+        HashMap<UUID, Person> persons = new HashMap<>();
+        persons.put(person.getId(), person);
+        return persons;
+    }
 
     @RolesAllowed(PersonRoles.ADMIN)
     public void updatePerson(Person person, UpdatePersonRequest updatePersonRequest) {
@@ -113,6 +124,12 @@ public class PersonService {
                 .filter(p -> p.getLogin().equals(login))
                 .findFirst();
         return person.isPresent() && passwordHash.verify(password.toCharArray(), person.get().getPassword());
+    }
+
+    private void checkUserRole() throws SecurityException {
+        if (!securityContext.isCallerInRole(PersonRoles.USER)) {
+            throw new SecurityException("Caller not authorized.");
+        }
     }
 
     public void addPersonPhoto(Person person, InputStream is) {

@@ -10,6 +10,7 @@
     </f:metadata>
 
     <ui:define name="content">
+        <f:loadBundle var="msg" basename="ekstra.jest.JEE.view.i18n.messages"/>
         <article class="text--justified">
             <header><h:outputText value="#{categoryView.name}"/></header>
 
@@ -17,21 +18,21 @@
                          styleClass="table align-middle mb-0 bg-white" headerClass="bg-light">
 
                 <h:column>
-                    <f:facet name="header">Name</f:facet>
+                    <f:facet name="header">#{msg.name}</f:facet>
                     <h:outputText value="#{pieceOfClothing.name}"/>
                 </h:column>
 
                 <h:column>
-                    <f:facet name="header">Size</f:facet>
+                    <f:facet name="header">#{msg.size}</f:facet>
                     <h:outputText value="#{pieceOfClothing.size}"/>
                 </h:column>
 
                 <h:column>
-                    <f:facet name="header">Resell price</f:facet>
+                    <f:facet name="header">#{msg.resell}</f:facet>
                     <h:outputText value="#{pieceOfClothing.resellPrice}"/>
                 </h:column>
                 <h:column>
-                    <f:facet name="header">Name of the owner::</f:facet>
+                    <f:facet name="header">#{msg.owner}</f:facet>
                     <h:outputText value="#{pieceOfClothing.nameOfOwner}"/>
                 </h:column>
 
@@ -39,18 +40,18 @@
                     <h:link outcome="/pieces/pieces_view.xhtml" value="View">
                         <f:param name="id" value="#{pieceOfClothing.id}"/>
                     </h:link>
-                    <f:facet name="header">View</f:facet>
+                    <f:facet name="header">#{msg.view}</f:facet>
                 </h:column>
 
                 <h:column>
-                    <f:facet name="header">Edit</f:facet>
+                    <f:facet name="header">#{msg.edit}</f:facet>
                     <h:link outcome="/pieces/pieces_edit.xhtml" value="Edit">
                         <f:param name="id" value="#{pieceOfClothing.id}"/>
                     </h:link>
                 </h:column>
 
                 <h:column>
-                    <f:facet name="header">Delete</f:facet>
+                    <f:facet name="header">#{msg.delete}</f:facet>
                     <h:form>
                         <h:commandButton styleClass="btn" value="Delete" action="#{categoryView.deleteAction(pieceOfClothing)}"/>
                     </h:form>
@@ -58,7 +59,7 @@
 
                 <f:facet name="footer">
                     <h:button styleClass="btn" outcome="/pieces/pieces_create.xhtml"
-                              value="Create new piece"/>
+                              value="#{msg.createNewPiece}"/>
                 </f:facet>
             </h:dataTable>
         </article>
