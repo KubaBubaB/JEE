@@ -71,8 +71,9 @@ public class CategoryView implements Serializable {
         return piecesOfClothing;
     }
 
-    public String deleteAction(PiecesOfClothingModel.PieceOfClothing pieceOfClothing) {
+    public void deleteAction(PiecesOfClothingModel.PieceOfClothing pieceOfClothing) {
         pieceService.removePieceOfClothing(pieceOfClothing.getId());
-        return "categories_view?faces-redirect=true&id=" + categoryId;
+        piecesOfClothing = null;
+        //return "categories_view?faces-redirect=true&id=" + categoryId;
     }
 }

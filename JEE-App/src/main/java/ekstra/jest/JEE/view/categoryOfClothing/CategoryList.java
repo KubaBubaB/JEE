@@ -33,8 +33,9 @@ public class CategoryList {
         return categories;
     }
 
-    public String deleteAction(CategoriesOfClothingModel.Category category) {
+    public void deleteAction(CategoriesOfClothingModel.Category category) {
         service.removeCategoryOfClothing(category.getId());
-        return "categories_list?faces-redirect=true";
+        categories = null;
+        //return "categories_list?faces-redirect=true";
     }
 }
