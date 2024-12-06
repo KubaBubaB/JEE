@@ -12,4 +12,6 @@ import lombok.*;
 public class PieceOfClothingEditModel {
     private String name;
     private double resellPrice;
+
+    private Long version;
 }

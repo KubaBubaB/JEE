@@ -11,4 +11,5 @@ import lombok.*;
 @EqualsAndHashCode
 public class UpdatePieceOfClothingRequest {
     private Double resellPrice;
+    private Long version;
 }

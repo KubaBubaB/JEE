@@ -43,6 +43,9 @@ public class EntitiesToModelsMapper {
                                 .name(piece.getName())
                                 .size(String.valueOf(piece.getSize()))
                                 .resellPrice(piece.getResellPrice())
+                                .version(piece.getVersion())
+                                .creationDateTime(piece.getCreationDateTime())
+                                .editionDateTime(piece.getEditionDateTime())
                                 .nameOfOwner(piece.getOwner().getFirstName() + " " + piece.getOwner().getLastName())
                                 .build())
                         .toList())
@@ -81,6 +84,7 @@ public class EntitiesToModelsMapper {
         return PieceOfClothingEditModel.builder()
                 .name(pieceOfClothing.getName())
                 .resellPrice(pieceOfClothing.getResellPrice())
+                .version(pieceOfClothing.getVersion())
                 .build();
     }
 
@@ -92,6 +96,19 @@ public class EntitiesToModelsMapper {
                 .resellPrice(piece.getResellPrice())
                 .owner(owner)
                 .categoryOfClothing(category)
+                .build();
+    }
+
+    public PieceOfClothing editModelToPiece(PieceOfClothingEditModel piece, PieceOfClothing oldPiece) {
+        return PieceOfClothing.builder()
+                .id(oldPiece.getId())
+                .name(oldPiece.getName())
+                .size(oldPiece.getSize())
+                .resellPrice(piece.getResellPrice())
+                .owner(oldPiece.getOwner())
+                .categoryOfClothing(oldPiece.getCategoryOfClothing())
+                .creationDateTime(oldPiece.getCreationDateTime())
+                .version(piece.getVersion())
                 .build();
     }
 }

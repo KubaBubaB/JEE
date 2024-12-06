@@ -15,7 +15,12 @@
         <article>
             <header><h2>#{msg.catEdit} #{pieceOfClothingEdit.pieceOfClothing.name}</h2></header>
             <h:form styleClass="container" onreset="onReset()" enctype="multipart/form-data">
-
+                <div class="row">
+                    <div class="col-4 p-2">
+                        <h:messages/>
+                    </div>
+                </div>
+                <h:inputHidden value="#{pieceOfClothingEdit.version}" />
                 <div class="row">
                     <div class="col-4 p-2">
                         <div class="form-outline">

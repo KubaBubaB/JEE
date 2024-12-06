@@ -2,6 +2,7 @@ package ekstra.jest.JEE.model.pieceOfClothing;
 
 import lombok.*;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.UUID;
 
@@ -26,7 +27,9 @@ public class PiecesOfClothingModel {
         private String size;
         private double resellPrice;
         private String nameOfOwner;
-
+        private Long version;
+        private LocalDateTime creationDateTime;
+        private LocalDateTime editionDateTime;
     }
 
     @Singular

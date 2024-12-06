@@ -18,6 +18,25 @@
                          styleClass="table align-middle mb-0 bg-white" headerClass="bg-light">
 
                 <h:column>
+                    <f:facet name="header">#{msg.version}</f:facet>
+                    <h:outputText value="#{pieceOfClothing.version}"/>
+                </h:column>
+
+                <h:column>
+                    <f:facet name="header">#{msg.created}</f:facet>
+                    <h:outputText value="#{pieceOfClothing.creationDateTime}">
+                        <f:convertDateTime type="localDateTime" pattern="yyyy-MM-dd HH:mm"/>
+                    </h:outputText>
+                </h:column>
+
+                <h:column>
+                    <f:facet name="header">#{msg.updated}</f:facet>
+                    <h:outputText value="#{pieceOfClothing.editionDateTime}">
+                        <f:convertDateTime type="localDateTime" pattern="yyyy-MM-dd HH:mm"/>
+                    </h:outputText>
+                </h:column>
+
+                <h:column>
                     <f:facet name="header">#{msg.name}</f:facet>
                     <h:outputText value="#{pieceOfClothing.name}"/>
                 </h:column>

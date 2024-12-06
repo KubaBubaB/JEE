@@ -185,7 +185,20 @@ public class PieceOfClothingService {
             }
         }
         pieceOfClothing.setResellPrice(request.getResellPrice());
+        //pieceOfClothing.setVersion(request.getVersion());
         pieceOfClothingRepository.update(pieceOfClothing.getId(), pieceOfClothing);
+    }
+
+    public void updatePieceOfClothing(PieceOfClothing piece){
+        checkUserRole();
+        if(!securityContext.isCallerInRole(PersonRoles.ADMIN)){
+            Person person = personRepository.getByLogin(securityContext.getCallerPrincipal().getName()).get();
+            if(!person.getOwnedClothing().contains(piece)){
+                System.out.println("dupa");
+                return;
+            }
+        }
+        pieceOfClothingRepository.update(piece.getId(), piece);
     }
 
     private void checkUserRole() throws SecurityException {

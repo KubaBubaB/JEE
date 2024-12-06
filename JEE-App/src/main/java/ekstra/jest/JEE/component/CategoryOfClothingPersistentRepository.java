@@ -5,6 +5,9 @@ import ekstra.jest.JEE.interfaces.CategoryOfClothingRepository;
 import jakarta.enterprise.context.Dependent;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
+import jakarta.persistence.criteria.CriteriaBuilder;
+import jakarta.persistence.criteria.CriteriaQuery;
+import jakarta.persistence.criteria.Root;
 
 import java.util.HashMap;
 import java.util.Optional;
@@ -27,7 +30,11 @@ public class CategoryOfClothingPersistentRepository implements CategoryOfClothin
     @Override
     public HashMap<UUID, CategoryOfClothing> getAll() {
         HashMap<UUID, CategoryOfClothing> map = new HashMap<>();
-        em.createQuery("select c from CategoryOfClothing c", CategoryOfClothing.class).getResultList().forEach(categoryOfClothing -> map.put(categoryOfClothing.getId(), categoryOfClothing));
+        CriteriaBuilder cb = em.getCriteriaBuilder();
+        CriteriaQuery<CategoryOfClothing> query = cb.createQuery(CategoryOfClothing.class);
+        Root<CategoryOfClothing> root = query.from(CategoryOfClothing.class);
+        query.select(root);
+        em.createQuery(query).getResultList().forEach(categoryOfClothing -> map.put(categoryOfClothing.getId(), categoryOfClothing));
         return map;
     }
 

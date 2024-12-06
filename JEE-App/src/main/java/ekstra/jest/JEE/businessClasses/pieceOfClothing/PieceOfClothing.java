@@ -1,9 +1,11 @@
 package ekstra.jest.JEE.businessClasses.pieceOfClothing;
 
+import ekstra.jest.JEE.businessClasses.VersionAndCreationDateAuditable;
 import ekstra.jest.JEE.businessClasses.categoryOfClothing.CategoryOfClothing;
 import ekstra.jest.JEE.businessClasses.person.Person;
 import jakarta.persistence.*;
 import lombok.*;
+import lombok.experimental.SuperBuilder;
 
 import java.io.Serializable;
 import java.util.UUID;
@@ -13,11 +15,11 @@ import java.util.UUID;
 @NoArgsConstructor
 @AllArgsConstructor
 @ToString
-@Builder
-@EqualsAndHashCode
+@SuperBuilder
+@EqualsAndHashCode(callSuper = true)
 @Entity
 @Table(name = "pieces_of_clothing")
-public class PieceOfClothing implements Serializable {
+public class PieceOfClothing extends VersionAndCreationDateAuditable implements Serializable {
     @Id
     private UUID id;
     @EqualsAndHashCode.Exclude
@@ -37,6 +39,17 @@ public class PieceOfClothing implements Serializable {
         M,
         L,
         XL
+    }
+
+    @Override
+    public String toString() {
+        return "PieceOfClothing{" +
+                "id=" + id +
+                ", resellPrice=" + resellPrice +
+                ", size=" + size +
+                ", name='" + name + '\'' +
+                ", version=" + super.getVersion() +
+                '}';
     }
 
 }

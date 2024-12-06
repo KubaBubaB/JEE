@@ -5,8 +5,12 @@ import ekstra.jest.JEE.interfaces.PersonRepository;
 import jakarta.enterprise.context.Dependent;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
+import jakarta.persistence.criteria.CriteriaBuilder;
+import jakarta.persistence.criteria.CriteriaQuery;
+import jakarta.persistence.criteria.Root;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -28,7 +32,11 @@ public class PersonPersistentRepository implements PersonRepository {
     @Override
     public HashMap<UUID, Person> getAll() {
         HashMap<UUID, Person> map = new HashMap<>();
-        em.createQuery("select p from Person p", Person.class).getResultList().forEach(person -> map.put(person.getId(), person));
+        CriteriaBuilder cb = em.getCriteriaBuilder();
+        CriteriaQuery<Person> query = cb.createQuery(Person.class);
+        Root<Person> root = query.from(Person.class);
+        query.select(root);
+        em.createQuery(query).getResultList().forEach(person -> map.put(person.getId(), person));
         return map;
     }
 
@@ -51,22 +59,25 @@ public class PersonPersistentRepository implements PersonRepository {
 
     @Override
     public Optional<Person> getByLogin(String login) {
-        return em.createQuery("select p from Person p where p.login = :login", Person.class)
-                .setParameter("login", login)
-                .getResultList()
-                .stream()
-                .findFirst();
+        CriteriaBuilder cb = em.getCriteriaBuilder();
+        CriteriaQuery<Person> cq = cb.createQuery(Person.class);
+        Root<Person> root = cq.from(Person.class);
+        cq.where(cb.equal(root.get("login"), login));
+
+        List<Person> results = em.createQuery(cq).getResultList();
+        return results.stream().findFirst();
     }
 
     @Override
     public boolean contains(UUID key, String login) {
-        var dupa = em.createQuery("select p from Person p where p.id = :key or p.login = :login", Person.class)
-                .setParameter("key", key)
-                .setParameter("login", login)
-                .getResultList();
-        return !em.createQuery("select p from Person p where p.id = :key or p.login = :login", Person.class)
-                .setParameter("key", key)
-                .setParameter("login", login)
-                .getResultList().isEmpty();
+        CriteriaBuilder cb = em.getCriteriaBuilder();
+        CriteriaQuery<Person> cq = cb.createQuery(Person.class);
+        Root<Person> root = cq.from(Person.class);
+        cq.where(cb.or(
+                cb.equal(root.get("id"), key),
+                cb.equal(root.get("login"), login)
+        ));
+
+        return !em.createQuery(cq).getResultList().isEmpty();
     }
 }
